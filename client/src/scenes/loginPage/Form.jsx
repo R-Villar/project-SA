@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import {
 	Box,
 	Button,
@@ -7,7 +7,7 @@ import {
 	Typography,
 	useTheme,
 } from "@mui/material";
-import {EditOutlinedIcon} from "@mui/icons-material/EditOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {Formik} from "formik";
 import * as yup from "yup";
 import {useNavigate} from "react-router-dom";
@@ -101,8 +101,8 @@ export const Form = () => {
 	};
 
 	const handleFormSubmit = async (values, onSubmitProps) => {
-		if (isLogin) await loginSchema(values, onSubmitProps);
-		if (isRegister) await registerSchema(values, onSubmitProps);
+		if (isLogin) await login(values, onSubmitProps);
+		if (isRegister) await register(values, onSubmitProps);
 	};
 
 	return (
@@ -114,7 +114,7 @@ export const Form = () => {
 			{({
 				values,
 				errors,
-                touched,
+				touched,
 				handleBlur,
 				handleChange,
 				handleSubmit,
@@ -204,7 +204,7 @@ export const Form = () => {
 									p='1rem'
 								>
 									<Dropzone
-										acceptedFiles='.jpg,.jpeg,.png,.gif'
+										acceptedFiles='.jpg,.jpeg,.png'
 										multiple={false}
 										onDrop={(acceptedFiles) =>
 											setFieldValue(
@@ -272,6 +272,7 @@ export const Form = () => {
 							sx={{gridColumn: "span 4"}}
 						/>
 					</Box>
+
 					{/* BUTTONS */}
 					<Box>
 						<Button

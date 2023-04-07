@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import {
 	Box,
 	IconButton,
@@ -10,19 +10,10 @@ import {
 	useTheme,
 	useMediaQuery,
 } from "@mui/material";
-import {
-	Search,
-	Message,
-	DarkMode,
-	LightMode,
-	Notifications,
-	Help,
-	Menu,
-	Close,
-} from "@mui/icons-material";
-import {useDispatch, useSelector} from "react-redux";
-import {setMode, setLogout} from "@/state";
-import {useNavigate} from "react-router-dom";
+import { Search, Message, DarkMode, LightMode, Notifications, Help, Menu, Close } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { setMode, setLogout } from "@/state";
+import { useNavigate } from "react-router-dom";
 import FlexBetween from "@/components/FlexBetween";
 
 export const Navbar = () => {
@@ -49,17 +40,12 @@ export const Navbar = () => {
 					fontSize='clamp(1rem, 2rem, 2.25rem)'
 					color='primary.dark'
 					onClick={() => navigate("/home")}
-					sx={{"&:hover": {color: primaryLight, cursor: "pointer"}}}
+					sx={{ "&:hover": { color: primaryLight, cursor: "pointer" } }}
 				>
 					Social App
 				</Typography>
 				{isNonMobileScreens && (
-					<FlexBetween
-						background={neutralLight}
-						borderRadius='9px'
-						gap='3rem'
-						padding='0.1rem 1.5rem'
-					>
+					<FlexBetween background={neutralLight} borderRadius='9px' gap='3rem' padding='0.1rem 1.5rem'>
 						<InputBase placeholder='Search...' />
 						<IconButton>
 							<Search />
@@ -72,14 +58,14 @@ export const Navbar = () => {
 				<FlexBetween gap='2rem'>
 					<IconButton onClick={() => dispatch(setMode())}>
 						{theme.palette.mode === "dark" ? (
-							<DarkMode sx={{fontSize: "25px"}} />
+							<DarkMode sx={{ fontSize: "25px" }} />
 						) : (
-							<LightMode sx={{color: dark, fontSize: "25px"}} />
+							<LightMode sx={{ color: dark, fontSize: "25px" }} />
 						)}
 					</IconButton>
-					<Message sx={{fontSize: "25px"}} />
-					<Notifications sx={{fontSize: "25px"}} />
-					<Help sx={{fontSize: "25px"}} />
+					<Message sx={{ fontSize: "25px" }} />
+					<Notifications sx={{ fontSize: "25px" }} />
+					<Help sx={{ fontSize: "25px" }} />
 					<FormControl variant='standard' value={fullName}>
 						<Select
 							value={fullName}
@@ -100,16 +86,12 @@ export const Navbar = () => {
 							<MenuItem value={fullName}>
 								<Typography>{fullName}</Typography>
 							</MenuItem>
-							<MenuItem onClick={() => dispatch(setLogout())}>
-								Log Out
-							</MenuItem>
+							<MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
 						</Select>
 					</FormControl>
 				</FlexBetween>
 			) : (
-				<IconButton
-					onClick={() => setIsMenuMobileToggled(!isMobileMenuToggled)}
-				>
+				<IconButton onClick={() => setIsMenuMobileToggled(!isMobileMenuToggled)}>
 					<Menu />
 				</IconButton>
 			)}
@@ -127,11 +109,7 @@ export const Navbar = () => {
 				>
 					{/* CLOSE ICON */}
 					<Box display='flex' justifyContent='flex-end' p='1rem'>
-						<IconButton
-							onClick={() =>
-								setIsMenuMobileToggled(!isMobileMenuToggled)
-							}
-						>
+						<IconButton onClick={() => setIsMenuMobileToggled(!isMobileMenuToggled)}>
 							<Close />
 						</IconButton>
 					</Box>
@@ -143,21 +121,16 @@ export const Navbar = () => {
 						alignItems='center'
 						gap='3rem'
 					>
-						<IconButton
-							onClick={() => dispatch(setMode())}
-							sx={{fontsize: "25px"}}
-						>
+						<IconButton onClick={() => dispatch(setMode())} sx={{ fontsize: "25px" }}>
 							{theme.palette.mode === "dark" ? (
-								<DarkMode sx={{fontSize: "25px"}} />
+								<DarkMode sx={{ fontSize: "25px" }} />
 							) : (
-								<LightMode
-									sx={{color: dark, fontSize: "25px"}}
-								/>
+								<LightMode sx={{ color: dark, fontSize: "25px" }} />
 							)}
 						</IconButton>
-						<Message sx={{fontSize: "25px"}} />
-						<Notifications sx={{fontSize: "25px"}} />
-						<Help sx={{fontSize: "25px"}} />
+						<Message sx={{ fontSize: "25px" }} />
+						<Notifications sx={{ fontSize: "25px" }} />
+						<Help sx={{ fontSize: "25px" }} />
 						<FormControl variant='standard' value={fullName}>
 							<Select
 								value={fullName}
@@ -178,9 +151,7 @@ export const Navbar = () => {
 								<MenuItem value={fullName}>
 									<Typography>{fullName}</Typography>
 								</MenuItem>
-								<MenuItem onClick={() => dispatch(setLogout())}>
-									Log Out
-								</MenuItem>
+								<MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
 							</Select>
 						</FormControl>
 					</FlexBetween>

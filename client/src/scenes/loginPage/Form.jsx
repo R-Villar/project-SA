@@ -1,18 +1,11 @@
 import { useState } from "react";
-import {
-	Box,
-	Button,
-	TextField,
-	useMediaQuery,
-	Typography,
-	useTheme,
-} from "@mui/material";
+import { Box, Button, TextField, useMediaQuery, Typography, useTheme } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import {Formik} from "formik";
+import { Formik } from "formik";
 import * as yup from "yup";
-import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {setLogin} from "@/state";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLogin } from "@/state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "@/components/FlexBetween";
 
@@ -48,7 +41,7 @@ const initialValuesLogin = {
 
 export const Form = () => {
 	const [pageType, setPageType] = useState("login");
-	const {palette} = useTheme();
+	const { palette } = useTheme();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -63,13 +56,10 @@ export const Form = () => {
 		}
 		formData.append("picturePath", values.picture.name);
 
-		const savedUserResponse = await fetch(
-			"http://localhost:3001/auth/register",
-			{
-				method: "POST",
-				body: formData,
-			}
-		);
+		const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+			method: "POST",
+			body: formData,
+		});
 		const savedUser = await savedUserResponse.json();
 		onSubmitProps.resetForm();
 
@@ -79,14 +69,11 @@ export const Form = () => {
 	};
 
 	const login = async (values, onSubmitProps) => {
-		const loggedInResponse = await fetch(
-			"http://localhost:3001/auth/login",
-			{
-				method: "POST",
-				headers: {"Content-Type": "application/json"},
-				body: JSON.stringify(values),
-			}
-		);
+		const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(values),
+		});
 		const loggedIn = await loggedInResponse.json();
 		onSubmitProps.resetForm();
 		if (loggedIn) {
@@ -111,16 +98,7 @@ export const Form = () => {
 			initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
 			validationSchema={isLogin ? loginSchema : registerSchema}
 		>
-			{({
-				values,
-				errors,
-				touched,
-				handleBlur,
-				handleChange,
-				handleSubmit,
-				setFieldValue,
-				resetForm,
-			}) => (
+			{({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue, resetForm }) => (
 				<form onSubmit={handleSubmit}>
 					<Box
 						display='grid'
@@ -143,14 +121,9 @@ export const Form = () => {
 									onChange={handleChange}
 									value={values.firstName}
 									name='firstName'
-									error={
-										Boolean(touched.firstName) &&
-										Boolean(errors.firstName)
-									}
-									helperText={
-										touched.firstName && errors.firstName
-									}
-									sx={{gridColumn: "span 2"}}
+									error={Boolean(touched.firstName) && Boolean(errors.firstName)}
+									helperText={touched.firstName && errors.firstName}
+									sx={{ gridColumn: "span 2" }}
 								/>
 								<TextField
 									label='Last Name'
@@ -158,14 +131,9 @@ export const Form = () => {
 									onChange={handleChange}
 									value={values.lastName}
 									name='lastName'
-									error={
-										Boolean(touched.lastName) &&
-										Boolean(errors.lastName)
-									}
-									helperText={
-										touched.lastName && errors.lastName
-									}
-									sx={{gridColumn: "span 2"}}
+									error={Boolean(touched.lastName) && Boolean(errors.lastName)}
+									helperText={touched.lastName && errors.lastName}
+									sx={{ gridColumn: "span 2" }}
 								/>
 								<TextField
 									label='Location'
@@ -173,14 +141,9 @@ export const Form = () => {
 									onChange={handleChange}
 									value={values.location}
 									name='location'
-									error={
-										Boolean(touched.location) &&
-										Boolean(errors.location)
-									}
-									helperText={
-										touched.location && errors.location
-									}
-									sx={{gridColumn: "span 4"}}
+									error={Boolean(touched.location) && Boolean(errors.location)}
+									helperText={touched.location && errors.location}
+									sx={{ gridColumn: "span 4" }}
 								/>
 								<TextField
 									label='Occupation'
@@ -188,14 +151,9 @@ export const Form = () => {
 									onChange={handleChange}
 									value={values.occupation}
 									name='occupation'
-									error={
-										Boolean(touched.occupation) &&
-										Boolean(errors.occupation)
-									}
-									helperText={
-										touched.occupation && errors.occupation
-									}
-									sx={{gridColumn: "span 4"}}
+									error={Boolean(touched.occupation) && Boolean(errors.occupation)}
+									helperText={touched.occupation && errors.occupation}
+									sx={{ gridColumn: "span 4" }}
 								/>
 								<Box
 									gridColumn='span 4'
@@ -206,14 +164,9 @@ export const Form = () => {
 									<Dropzone
 										acceptedFiles='.jpg,.jpeg,.png'
 										multiple={false}
-										onDrop={(acceptedFiles) =>
-											setFieldValue(
-												"picture",
-												acceptedFiles[0]
-											)
-										}
+										onDrop={(acceptedFiles) => setFieldValue("picture", acceptedFiles[0])}
 									>
-										{({getRootProps, getInputProps}) => (
+										{({ getRootProps, getInputProps }) => (
 											<Box
 												{...getRootProps()}
 												border={`2px dashed ${palette.primary.main}`}
@@ -229,12 +182,7 @@ export const Form = () => {
 													<p>Add Picture Here</p>
 												) : (
 													<FlexBetween>
-														<Typography>
-															{
-																values.picture
-																	.name
-															}
-														</Typography>
+														<Typography>{values.picture.name}</Typography>
 														<EditOutlinedIcon />
 													</FlexBetween>
 												)}
@@ -251,11 +199,9 @@ export const Form = () => {
 							onChange={handleChange}
 							value={values.email}
 							name='email'
-							error={
-								Boolean(touched.email) && Boolean(errors.email)
-							}
+							error={Boolean(touched.email) && Boolean(errors.email)}
 							helperText={touched.email && errors.email}
-							sx={{gridColumn: "span 4"}}
+							sx={{ gridColumn: "span 4" }}
 						/>
 						<TextField
 							label='Password'
@@ -264,12 +210,9 @@ export const Form = () => {
 							onChange={handleChange}
 							value={values.password}
 							name='password'
-							error={
-								Boolean(touched.password) &&
-								Boolean(errors.password)
-							}
+							error={Boolean(touched.password) && Boolean(errors.password)}
 							helperText={touched.password && errors.password}
-							sx={{gridColumn: "span 4"}}
+							sx={{ gridColumn: "span 4" }}
 						/>
 					</Box>
 
@@ -283,7 +226,7 @@ export const Form = () => {
 								p: "1rem",
 								backgroundColor: palette.primary.main,
 								color: palette.background.alt,
-								"&:hover": {color: palette.primary.main},
+								"&:hover": { color: palette.primary.main },
 							}}
 						>
 							{isLogin ? "LOGIN" : "REGISTER"}
@@ -302,9 +245,7 @@ export const Form = () => {
 								},
 							}}
 						>
-							{isLogin
-								? "Don't have an account? Sign Up here."
-								: "Already have an account? Login here."}
+							{isLogin ? "Don't have an account? Sign Up here." : "Already have an account? Login here."}
 						</Typography>
 					</Box>
 				</form>

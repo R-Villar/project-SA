@@ -1,5 +1,5 @@
 import { ManageAccountsOutlined, EditOutlined, LocationOnOutlined, WorkOutlineOutlined } from "@mui/icons-material";
-
+import CardMedia from "@mui/material/CardMedia";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 import UserImage from "@/components/UserImage";
 import FlexBetween from "@/components/FlexBetween";
@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const UserWidget = ({ userId, picturePath }) => {
-    
 	const [user, setUser] = useState(null);
 	const { palette } = useTheme();
 	const navigate = useNavigate();
@@ -34,7 +33,7 @@ export const UserWidget = ({ userId, picturePath }) => {
 	if (!user) {
 		return null;
 	}
-    console.log(user)
+
 	const { firstName, lastName, location, occupation, viewedProfile, impressions, friends } = user;
 
 	return (

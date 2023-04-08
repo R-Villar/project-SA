@@ -98,7 +98,16 @@ export const Form = () => {
 			initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
 			validationSchema={isLogin ? loginSchema : registerSchema}
 		>
-			{({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue, resetForm }) => (
+			{({
+				values,
+				errors,
+				touched,
+				handleBlur,
+				handleChange,
+				handleSubmit,
+				setFieldValue,
+				resetForm,
+			}) => (
 				<form onSubmit={handleSubmit}>
 					<Box
 						display='grid'
@@ -245,7 +254,9 @@ export const Form = () => {
 								},
 							}}
 						>
-							{isLogin ? "Don't have an account? Sign Up here." : "Already have an account? Login here."}
+							{isLogin
+								? "Don't have an account? Sign Up here."
+								: "Already have an account? Login here."}
 						</Typography>
 					</Box>
 				</form>

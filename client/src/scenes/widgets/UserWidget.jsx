@@ -1,4 +1,9 @@
-import { ManageAccountsOutlined, EditOutlined, LocationOnOutlined, WorkOutlineOutlined } from "@mui/icons-material";
+import {
+	ManageAccountsOutlined,
+	EditOutlined,
+	LocationOnOutlined,
+	WorkOutlineOutlined,
+} from "@mui/icons-material";
 import CardMedia from "@mui/material/CardMedia";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 import UserImage from "@/components/UserImage";
@@ -17,18 +22,17 @@ export const UserWidget = ({ userId, picturePath }) => {
 	const medium = palette.neutral.medium;
 	const main = palette.neutral.main;
 
-	const getUser = async () => {
-		const response = await fetch(`http://localhost:3001/users/${userId}`, {
-			method: "GET",
-			headers: { Authorization: `Bearer ${token}` },
-		});
-		const data = await response.json();
-		setUser(data);
-	};
-
 	useEffect(() => {
+		const getUser = async () => {
+			const response = await fetch(`http://localhost:3001/users/${userId}`, {
+				method: "GET",
+				headers: { Authorization: `Bearer ${token}` },
+			});
+			const data = await response.json();
+			setUser(data);
+		};
 		getUser();
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, []);
 
 	if (!user) {
 		return null;

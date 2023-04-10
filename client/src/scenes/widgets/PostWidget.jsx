@@ -15,7 +15,7 @@ import { setPost } from "@/state";
 export const PostWidget = ({
 	postId,
 	name,
-    postUserId,
+	postUserId,
 	description,
 	location,
 	picturePath,
@@ -65,10 +65,10 @@ export const PostWidget = ({
 			)}
 			<FlexBetween mt='0.25rem'>
 				<FlexBetween mt='1rem'>
-					<FlexBetween mt='0.3rem'>
+					<FlexBetween gap='0.3rem'>
 						<IconButton onClick={patchLike}>
 							{isLiked ? (
-								<FavoriteOutlined sx={{ color: primary }} />
+								((<FavoriteOutlined sx={{ color: primary }} />))
 							) : (
 								<FavoriteBorderOutlined />
 							)}

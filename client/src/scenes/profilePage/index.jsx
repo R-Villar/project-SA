@@ -22,7 +22,6 @@ export const ProfilePage = () => {
 			});
 			const data = await response.json();
 			setUser(data);
-            console.log(data)
 		};
 		getUser();
 	}, []);

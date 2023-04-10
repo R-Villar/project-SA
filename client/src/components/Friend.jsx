@@ -26,7 +26,7 @@ export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
-				"COntent-Type": "application/json",
+				"Content-Type": "application/json",
 			},
 		});
 		const data = await response.json();

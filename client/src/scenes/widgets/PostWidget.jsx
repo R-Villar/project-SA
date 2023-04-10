@@ -1,6 +1,6 @@
 import {
 	ChatBubbleOutlineOutlined,
-	FavoriteBorderOutlines,
+	FavoriteBorderOutlined,
 	FavoriteOutlined,
 	ShareOutlined,
 } from "@mui/icons-material";
@@ -12,9 +12,10 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "@/state";
 
-export const PostsWidget = ({
+export const PostWidget = ({
 	postId,
 	name,
+    postUserId,
 	description,
 	location,
 	picturePath,
@@ -59,7 +60,7 @@ export const PostsWidget = ({
 					height='auto'
 					alt='Post'
 					style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-					src={`http://localhost:.3001/assets/${picturePath}`}
+					src={`http://localhost:3001/assets/${picturePath}`}
 				/>
 			)}
 			<FlexBetween mt='0.25rem'>
@@ -69,7 +70,7 @@ export const PostsWidget = ({
 							{isLiked ? (
 								<FavoriteOutlined sx={{ color: primary }} />
 							) : (
-								<FavoriteBorderOutlines />
+								<FavoriteBorderOutlined />
 							)}
 						</IconButton>
 						<Typography>{likeCount}</Typography>

@@ -45,12 +45,7 @@ export const Navbar = () => {
 					Social App
 				</Typography>
 				{isNonMobileScreens && (
-					<FlexBetween
-						background={neutralLight}
-						borderRadius='9px'
-						gap='3rem'
-						padding='0.1rem 1.5rem'
-					>
+					<FlexBetween background={neutralLight} borderRadius='9px' gap='3rem' padding='0.1rem 1.5rem'>
 						<InputBase placeholder='Search...' />
 						<IconButton>
 							<Search />

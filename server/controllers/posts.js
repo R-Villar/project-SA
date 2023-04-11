@@ -36,6 +36,9 @@ export const getFeedPosts = async (req, res) => {
 	}
 };
 
+// DELETE
+// export const deletePost
+
 export const getUserPosts = async (req, res) => {
 	try {
 		const { userId } = req.params;

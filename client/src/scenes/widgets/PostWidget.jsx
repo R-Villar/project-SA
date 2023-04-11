@@ -1,16 +1,12 @@
-import {
-	ChatBubbleOutlineOutlined,
-	FavoriteBorderOutlined,
-	FavoriteOutlined,
-	ShareOutlined,
-} from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, FavoriteOutlined } from "@mui/icons-material";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import { Box, Divider, IconButton, Typography, useTheme, Button } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 import { Friend } from "@/components/Friend";
 import WidgetWrapper from "@/components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "@/state";
+import { setPost, removePost } from "@/state";
 
 export const PostWidget = ({
 	postId,
@@ -33,6 +29,9 @@ export const PostWidget = ({
 	const { palette } = useTheme();
 	const main = palette.neutral.main;
 	const primary = palette.primary.main;
+
+	const { _id } = useSelector((state) => state.user);
+	const isUserPost = _id === postUserId;
 
 	const patchLike = async () => {
 		const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
@@ -68,7 +67,7 @@ export const PostWidget = ({
 					<FlexBetween gap='0.3rem'>
 						<IconButton onClick={patchLike}>
 							{isLiked ? (
-								((<FavoriteOutlined sx={{ color: primary }} />))
+								<FavoriteOutlined sx={{ color: primary }} />
 							) : (
 								<FavoriteBorderOutlined />
 							)}
@@ -83,11 +82,24 @@ export const PostWidget = ({
 						<Typography>{comments.length}</Typography>
 					</FlexBetween>
 				</FlexBetween>
-
-				<IconButton>
-					<ShareOutlined />
-				</IconButton>
+                
+				{isUserPost && (
+					<FlexBetween mt='0.25rem'>
+						<FlexBetween mt='1rem'>
+							<FlexBetween gap='0.3rem'>
+								<Button
+									color='warning'
+									onClick={() => dispatch(removePost(postId))}
+									endIcon={<DeleteOutlinedIcon />}
+								>
+									delete
+								</Button>
+							</FlexBetween>
+						</FlexBetween>
+					</FlexBetween>
+				)}
 			</FlexBetween>
+
 			{isComments && (
 				<Box mt='0.5rem'>
 					{comments.map((comment, i) => (

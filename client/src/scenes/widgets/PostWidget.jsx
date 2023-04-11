@@ -46,6 +46,18 @@ export const PostWidget = ({
 		dispatch(setPost({ post: updatedPost }));
 	};
 
+    const deletePost = async () => {
+        fetch(`http://localhost:3001/posts/${postId}`, {
+            method: "DELETE",
+            headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+        })
+        console.log(postId)
+        dispatch(removePost(postId))
+    }
+
 	return (
 		<WidgetWrapper m='2rem 0'>
 			<Friend friendId={postUserId} name={name} subtitle={location} userPicturePath={userPicturePath} />
@@ -82,14 +94,14 @@ export const PostWidget = ({
 						<Typography>{comments.length}</Typography>
 					</FlexBetween>
 				</FlexBetween>
-                
+
 				{isUserPost && (
 					<FlexBetween mt='0.25rem'>
 						<FlexBetween mt='1rem'>
 							<FlexBetween gap='0.3rem'>
 								<Button
 									color='warning'
-									onClick={() => dispatch(removePost(postId))}
+									onClick={deletePost}
 									endIcon={<DeleteOutlinedIcon />}
 								>
 									delete

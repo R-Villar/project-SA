@@ -37,7 +37,15 @@ export const getFeedPosts = async (req, res) => {
 };
 
 // DELETE
-// export const deletePost
+export const deletePost = async (req, res) => {
+	try {
+		await Post.deleteOne({ _id: req.params.postId });
+
+		res.status(200).json();
+	} catch (err) {
+		res.status(404).json({ message: err.message });
+	}
+};
 
 export const getUserPosts = async (req, res) => {
 	try {

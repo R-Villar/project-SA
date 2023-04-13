@@ -1,13 +1,16 @@
 import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, FavoriteOutlined } from "@mui/icons-material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { Box, Divider, IconButton, Typography, useTheme, Button } from "@mui/material";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import { pink } from "@mui/material/colors";
+import { Box, Divider, IconButton, Typography, useTheme, Button, InputBase } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 import { Friend } from "@/components/Friend";
 import WidgetWrapper from "@/components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, removePost } from "@/state";
-
+import ButtonGroup from "@mui/material/ButtonGroup";
 export const PostWidget = ({
 	postId,
 	name,
@@ -20,6 +23,8 @@ export const PostWidget = ({
 	comments,
 }) => {
 	const [isComments, setIsComments] = useState(false);
+	const [isEdit, setIsEdit] = useState(false);
+	const [postToEdit, setPostToEdit] = useState(description);
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const loggedInUserId = useSelector((state) => state.user._id);
@@ -46,24 +51,65 @@ export const PostWidget = ({
 		dispatch(setPost({ post: updatedPost }));
 	};
 
-    const deletePost = async () => {
-        fetch(`http://localhost:3001/posts/${postId}`, {
-            method: "DELETE",
-            headers: {
+	const patchDescription = () => {
+		dispatch(setPost({post: postToEdit }));
+	};
+
+	const deletePost = async () => {
+		fetch(`http://localhost:3001/posts/${postId}`, {
+			method: "DELETE",
+			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
-        })
-        console.log(postId)
-        dispatch(removePost(postId))
-    }
+		});
+		dispatch(removePost(postId));
+	};
 
 	return (
 		<WidgetWrapper m='2rem 0'>
 			<Friend friendId={postUserId} name={name} subtitle={location} userPicturePath={userPicturePath} />
-			<Typography color={main} sx={{ mt: "1rem" }}>
-				{description}
-			</Typography>
+
+			<FlexBetween mt='0.25rem'>
+				{isEdit ? (
+					<FlexBetween gap='1.5rem'>
+						<InputBase
+							value={postToEdit}
+							onChange={(e) => setPostToEdit(e.target.value)}
+							sx={{
+								width: "100%",
+								backgroundColor: palette.neutral.light,
+								borderRadius: "2rem",
+								padding: "0.5rem 2rem",
+							}}
+						/>
+					</FlexBetween>
+				) : (
+					<Typography color={main} sx={{ mt: "1rem" }}>
+						{postToEdit}
+					</Typography>
+				)}
+
+				{isUserPost && (
+					<FlexBetween>
+						<FlexBetween gap='0.3rem'>
+							<ButtonGroup
+								onClick={() => setIsEdit(!isEdit)}
+							>
+								{!isEdit ? (
+									<Button sx={{ color: primary }} endIcon={<EditOutlinedIcon />}>
+										Edit
+									</Button>
+								) : (
+									<Button onClick={patchDescription} endIcon={<DoneOutlinedIcon />}>
+										Done
+									</Button>
+								)}
+							</ButtonGroup>
+						</FlexBetween>
+					</FlexBetween>
+				)}
+			</FlexBetween>
 
 			{picturePath && (
 				<img
@@ -79,7 +125,7 @@ export const PostWidget = ({
 					<FlexBetween gap='0.3rem'>
 						<IconButton onClick={patchLike}>
 							{isLiked ? (
-								<FavoriteOutlined sx={{ color: primary }} />
+								<FavoriteOutlined sx={{ color: pink[500] }} />
 							) : (
 								<FavoriteBorderOutlined />
 							)}
@@ -99,11 +145,7 @@ export const PostWidget = ({
 					<FlexBetween mt='0.25rem'>
 						<FlexBetween mt='1rem'>
 							<FlexBetween gap='0.3rem'>
-								<Button
-									color='warning'
-									onClick={deletePost}
-									endIcon={<DeleteOutlinedIcon />}
-								>
+								<Button color='warning' onClick={deletePost} endIcon={<DeleteOutlinedIcon />}>
 									delete
 								</Button>
 							</FlexBetween>

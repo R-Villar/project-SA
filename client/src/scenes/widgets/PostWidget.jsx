@@ -7,10 +7,11 @@ import { Box, Divider, IconButton, Typography, useTheme, Button, InputBase } fro
 import FlexBetween from "@/components/FlexBetween";
 import { Friend } from "@/components/Friend";
 import WidgetWrapper from "@/components/WidgetWrapper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, removePost } from "@/state";
 import ButtonGroup from "@mui/material/ButtonGroup";
+
 export const PostWidget = ({
 	postId,
 	name,
@@ -51,9 +52,20 @@ export const PostWidget = ({
 		dispatch(setPost({ post: updatedPost }));
 	};
 
-	const patchDescription = () => {
-		dispatch(setPost({post: postToEdit }));
+	const patchDescription = async () => {
+		const response = await fetch(`http://localhost:3001/posts/${postId}/description`, {
+			method: "PATCH",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ description: postToEdit }),
+		});
+		const updatedPostDescription = await response.json();
+		dispatch(setPost({ post: updatedPostDescription }));
+
 	};
+
 
 	const deletePost = async () => {
 		fetch(`http://localhost:3001/posts/${postId}`, {
@@ -93,13 +105,9 @@ export const PostWidget = ({
 				{isUserPost && (
 					<FlexBetween>
 						<FlexBetween gap='0.3rem'>
-							<ButtonGroup
-								onClick={() => setIsEdit(!isEdit)}
-							>
+							<ButtonGroup onClick={() => setIsEdit(!isEdit)}>
 								{!isEdit ? (
-									<Button sx={{ color: primary }} endIcon={<EditOutlinedIcon />}>
-										Edit
-									</Button>
+									<Button endIcon={<EditOutlinedIcon />}>Edit</Button>
 								) : (
 									<Button onClick={patchDescription} endIcon={<DoneOutlinedIcon />}>
 										Done

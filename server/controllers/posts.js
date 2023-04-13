@@ -78,3 +78,17 @@ export const likePost = async (req, res) => {
 		res.status(409).json({ message: err.message });
 	}
 };
+
+export const updatedDescription = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { description } = req.body;
+		const post = await Post.findById(id);
+
+		const updatedDescription = await Post.findByIdAndUpdate(post._id, { description: description });
+
+        res.status(200).json(updatedDescription);
+	} catch (err) {
+		res.status(409).json({ message: err.message });
+	}
+};

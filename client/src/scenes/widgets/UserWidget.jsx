@@ -49,8 +49,7 @@ export const UserWidget = ({ userId, picturePath }) => {
 							fontWeight='500'
 							sx={{
 								"&:hover": {
-									color: palette.primary.light,
-									cursor: "pinter",
+									cursor: "pointer",
 								},
 							}}
 						>

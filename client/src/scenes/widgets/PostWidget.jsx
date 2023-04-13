@@ -1,5 +1,7 @@
 import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, FavoriteOutlined } from "@mui/icons-material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { pink } from "@mui/material/colors";
 import { Box, Divider, IconButton, Typography, useTheme, Button } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 import { Friend } from "@/components/Friend";
@@ -46,24 +48,37 @@ export const PostWidget = ({
 		dispatch(setPost({ post: updatedPost }));
 	};
 
-    const deletePost = async () => {
-        fetch(`http://localhost:3001/posts/${postId}`, {
-            method: "DELETE",
-            headers: {
+	const deletePost = async () => {
+		fetch(`http://localhost:3001/posts/${postId}`, {
+			method: "DELETE",
+			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
-        })
-        console.log(postId)
-        dispatch(removePost(postId))
+		});
+		dispatch(removePost(postId));
+	};
+
+    const editPost = () => {
+        console.log({description})
     }
 
 	return (
 		<WidgetWrapper m='2rem 0'>
 			<Friend friendId={postUserId} name={name} subtitle={location} userPicturePath={userPicturePath} />
-			<Typography color={main} sx={{ mt: "1rem" }}>
-				{description}
-			</Typography>
+
+			<FlexBetween mt='0.25rem'>
+				<Typography color={main} sx={{ mt: "1rem" }}>
+					{description}
+				</Typography>
+				{isUserPost && (
+					<FlexBetween>
+						<FlexBetween gap='0.3rem'>
+							<EditOutlinedIcon onClick={editPost} sx={{ color: primary }} />
+						</FlexBetween>
+					</FlexBetween>
+				)}
+			</FlexBetween>
 
 			{picturePath && (
 				<img
@@ -79,7 +94,7 @@ export const PostWidget = ({
 					<FlexBetween gap='0.3rem'>
 						<IconButton onClick={patchLike}>
 							{isLiked ? (
-								<FavoriteOutlined sx={{ color: primary }} />
+								<FavoriteOutlined sx={{ color: pink[500] }} />
 							) : (
 								<FavoriteBorderOutlined />
 							)}
@@ -99,11 +114,7 @@ export const PostWidget = ({
 					<FlexBetween mt='0.25rem'>
 						<FlexBetween mt='1rem'>
 							<FlexBetween gap='0.3rem'>
-								<Button
-									color='warning'
-									onClick={deletePost}
-									endIcon={<DeleteOutlinedIcon />}
-								>
+								<Button color='warning' onClick={deletePost} endIcon={<DeleteOutlinedIcon />}>
 									delete
 								</Button>
 							</FlexBetween>

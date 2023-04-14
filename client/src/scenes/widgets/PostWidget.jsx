@@ -9,7 +9,7 @@ import { Friend } from "@/components/Friend";
 import WidgetWrapper from "@/components/WidgetWrapper";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost, removePost } from "@/state";
+import { setPost, removePost, updatePost } from "@/state";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
 export const PostWidget = ({
@@ -53,7 +53,7 @@ export const PostWidget = ({
 	};
 
 	const patchDescription = async () => {
-		const response = await fetch(`http://localhost:3001/posts/${postId}/description`, {
+		await fetch(`http://localhost:3001/posts/${postId}/description`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -61,8 +61,8 @@ export const PostWidget = ({
 			},
 			body: JSON.stringify({ description: postToEdit }),
 		});
-		const updatedPostDescription = await response.json();
-		dispatch(setPost({ post: updatedPostDescription }));
+
+        dispatch(updatePost({ _id: postId, description: postToEdit }));
 
 	};
 

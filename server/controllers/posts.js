@@ -36,6 +36,16 @@ export const getFeedPosts = async (req, res) => {
 	}
 };
 
+// GET SINGLE POST
+export const getPost = async (req, res) => {
+	try {
+		const post = await Post.findById({_id: req.params.postId});
+		res.status(200).json(post);
+	} catch (err) {
+		res.status(404).json({ message: err.message });
+	}
+};
+
 // DELETE
 export const deletePost = async (req, res) => {
 	try {

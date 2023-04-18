@@ -22,7 +22,6 @@ export const ProfilePage = () => {
 			});
 			const data = await response.json();
 			setUser(data);
-            console.log(data)
 		};
 		getUser();
 	}, []);
@@ -50,7 +49,7 @@ export const ProfilePage = () => {
 				>
 					<MyPostWidget picturePath={user.picturePath} />
                     <Box m="2rem 0" />
-					<PostsWidget userId={userId} />
+					<PostsWidget userId={userId} isProfile />
 				</Box>
 			</Box>
 		</Box>

@@ -39,7 +39,7 @@ export const getFeedPosts = async (req, res) => {
 // GET SINGLE POST
 export const getPost = async (req, res) => {
 	try {
-		const post = await Post.findById({_id: req.params.postId});
+		const post = await Post.findById({ _id: req.params.postId });
 		res.status(200).json(post);
 	} catch (err) {
 		res.status(404).json({ message: err.message });
@@ -97,7 +97,7 @@ export const updatedDescription = async (req, res) => {
 
 		const updatedDescription = await Post.findByIdAndUpdate(post._id, { description: description });
 
-        res.status(200).json(updatedDescription);
+		res.status(200).json(updatedDescription);
 	} catch (err) {
 		res.status(409).json({ message: err.message });
 	}

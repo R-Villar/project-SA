@@ -7,7 +7,6 @@ export const createComment = async (req, res) => {
 	try {
         const { userId, detail, postId, parentCommentId } = req.body;
 		const user = await User.findById(userId);
-        console.log(user)
 
 		// // // Create a new comment instance with the post ID and text
 		const comment = new Comment({
@@ -27,3 +26,5 @@ export const createComment = async (req, res) => {
 		res.status(500).send("Server error");
 	}
 };
+
+export const getPostComments = async (req, res) => {}

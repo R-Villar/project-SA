@@ -5,26 +5,27 @@ import User from "../models/User.js";
 // CREATE
 export const createComment = async (req, res) => {
 	try {
-        const { userId, detail, postId, parentCommentId } = req.body;
-		const user = await User.findById(userId);
+		const { userId, detail, postId, parentCommentId } = req.body;
+		const post = await Post.findById(postId);
 
-		// // // Create a new comment instance with the post ID and text
-		const comment = new Comment({
-            parentCommentId,
-            userId,
+		const newComment = new Comment({
+			parentCommentId,
+			userId,
 			postId,
 			detail,
 		});
 
-		// // Save the comment to the database
-		await comment.save();
+		await newComment.save();
+		await post.comments.push(newComment);
 
-		// Return the new comment as JSON
-		res.status(201).json(comment);
+		post.save();
+		const comment = await Comment.find();
+
+		res.status(200).json(comment);
 	} catch (err) {
 		console.error(err);
-		res.status(500).send("Server error");
+		res.status(500).send({ message: err.message });
 	}
 };
 
-export const getPostComments = async (req, res) => {}
+export const getPostComments = async (req, res) => {};

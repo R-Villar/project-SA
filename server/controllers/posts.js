@@ -31,16 +31,7 @@ export const createPost = async (req, res) => {
 // READ
 export const getFeedPosts = async (req, res) => {
 	try {
-		const post = await Post.find()
-
-        // const postWithComments = await Promise.all(post.comments.map((id) => {
-        //     if (post.comments) {
-        //         Comment.findById(id)
-        //     }
-        // }))
-
-        // console.log(postWithComments)
-
+		const post = await Post.find().populate("comments")
 
 		res.status(200).json(post);
 	} catch (err) {

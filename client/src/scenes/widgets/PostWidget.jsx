@@ -62,10 +62,8 @@ export const PostWidget = ({
 			body: JSON.stringify({ description: postToEdit }),
 		});
 
-        dispatch(updatePost({ _id: postId, description: postToEdit }));
-
+		dispatch(updatePost({ _id: postId, description: postToEdit }));
 	};
-
 
 	const deletePost = async () => {
 		fetch(`http://localhost:3001/posts/${postId}`, {

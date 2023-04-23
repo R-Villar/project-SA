@@ -7,10 +7,11 @@ import { Box, Divider, IconButton, Typography, useTheme, Button, InputBase } fro
 import FlexBetween from "@/components/FlexBetween";
 import { Friend } from "@/components/Friend";
 import WidgetWrapper from "@/components/WidgetWrapper";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, removePost, updatePost } from "@/state";
 import ButtonGroup from "@mui/material/ButtonGroup";
+
 
 export const PostWidget = ({
 	postId,
@@ -38,7 +39,7 @@ export const PostWidget = ({
 
 	const { _id } = useSelector((state) => state.user);
 	const isUserPost = _id === postUserId;
-
+    console.log(comments)
 	const patchLike = async () => {
 		const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
 			method: "PATCH",
@@ -162,10 +163,11 @@ export const PostWidget = ({
 
 			{isComments && (
 				<Box mt='0.5rem'>
-					{comments.map((comment, i) => (
-						<Box key={`${name}-${i}`}>
+					{comments.map(({_id, detail}) => (
+                        
+						<Box key={`${_id}`}>
 							<Divider />
-							<Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>{comment}</Typography>
+							<Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>{detail}</Typography>
 						</Box>
 					))}
 					<Divider />

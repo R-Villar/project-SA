@@ -10,7 +10,7 @@ const UserImage = ({ image, size = "60px" }) => {
 				width={size}
 				height={size}
 				alt='user'
-				image={`http://localhost:3001/assets/${image}`}
+				image={image}
 			/>
 		</Box>
 	);

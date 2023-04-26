@@ -6,12 +6,12 @@ import cloudinary from "../middleware/cloudinary.js";
 // REGISTER USER
 export const register = async (req, res) => {
 	try {
-	const { firstName, lastName, email, password, picturePath, friends, location, occupation } = req.body;
+		const { firstName, lastName, email, password, friends, location, occupation } = req.body;
 
-	const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "user_profile"
-    });
-
+		const result = await cloudinary.uploader.upload(req.file.path, {
+			folder: "user_profile",
+		});
+		console.log(result);
 		const salt = await bcrypt.genSalt();
 		const passwordHash = await bcrypt.hash(password, salt);
 

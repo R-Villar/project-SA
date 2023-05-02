@@ -5,27 +5,47 @@ import cloudinary from "../middleware/cloudinary.js";
 // CREATE
 export const createPost = async (req, res) => {
 	try {
-		const result = await cloudinary.uploader.upload(req.file.path, {
-			folder: "users_posts",
-		});
-        
-		const { userId, description } = req.body;
-		const user = await User.findById(userId);
-		const newPost = new Post({
-			userId,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			location: user.location,
-			description,
-			userPicturePath: user.picturePath,
-			picturePath: result.secure_url,
-			likes: {},
-			comments: [],
-		});
-		await newPost.save();
+		if (req.file) {
+			const result = await cloudinary.uploader.upload(req.file.path, {
+				folder: "users_posts",
+			});
 
-		const post = await Post.find();
-		res.status(201).json(post);
+			const { userId, description } = req.body;
+			const user = await User.findById(userId);
+			const newPost = new Post({
+				userId,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				location: user.location,
+				description,
+				userPicturePath: user.picturePath,
+				picturePath: result.secure_url,
+				likes: {},
+				comments: [],
+			});
+			await newPost.save();
+
+			const post = await Post.find();
+			res.status(201).json(post);
+		} else {
+			const { userId, description } = req.body;
+			const user = await User.findById(userId);
+			const newPost = new Post({
+				userId,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				location: user.location,
+				description,
+				userPicturePath: user.picturePath,
+				picturePath: "",
+				likes: {},
+				comments: [],
+			});
+			await newPost.save();
+
+			const post = await Post.find();
+			res.status(201).json(post);
+		}
 	} catch (err) {
 		res.status(409).json({ message: err.message });
 	}

@@ -5,14 +5,13 @@ import User from "../models/User.js";
 // CREATE
 export const createComment = async (req, res) => {
 	try {
-		const { userId, detail, postId, parentCommentId } = req.body;
+		const { userId, content, postId, parentCommentId } = req.body;
 		const post = await Post.findById(postId);
-
 		const newComment = new Comment({
 			parentCommentId,
 			userId,
 			postId,
-			detail,
+			content,
 		});
 
 		await newComment.save();

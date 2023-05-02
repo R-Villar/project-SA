@@ -12,7 +12,7 @@ const commentSchema = mongoose.Schema(
 			ref: "Comment",
 			required: false, // if not populated, then its a top level comment
 		},
-		detail: {
+		content: {
 			type: String,
 			required: true,
 		},

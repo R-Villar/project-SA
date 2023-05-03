@@ -20,6 +20,10 @@ const postSchema = mongoose.Schema(
 			type: String,
 			default: "",
 		},
+		cloudinaryId: {
+			type: String,
+			require: true,
+		},
 		userPicturePath: String,
 		likes: {
 			type: Map,

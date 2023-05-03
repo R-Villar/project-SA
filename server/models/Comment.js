@@ -20,7 +20,16 @@ const commentSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 			required: true,
-        }
+        },
+        firstName: {
+			type: String,
+			required: true,
+		},
+		lastName: {
+			type: String,
+			required: true,
+		},
+        userPicturePath: String,
 	},
 	{ timestamps: true }
 );

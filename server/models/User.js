@@ -29,6 +29,10 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
+		cloudinaryId: {
+			type: String,
+			require: true,
+		},
 		friends: {
 			type: Array,
 			default: [],

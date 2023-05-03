@@ -1,5 +1,6 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
 import cloudinary from "../middleware/cloudinary.js";
 
 // CREATE
@@ -20,6 +21,7 @@ export const createPost = async (req, res) => {
 				description,
 				userPicturePath: user.picturePath,
 				picturePath: result.secure_url,
+                cloudinaryId: result.public_id,
 				likes: {},
 				comments: [],
 			});
@@ -75,7 +77,9 @@ export const getPost = async (req, res) => {
 // DELETE
 export const deletePost = async (req, res) => {
 	try {
-		await Post.deleteOne({ _id: req.params.postId });
+        const post = await Post.findByIdAndDelete(req.params.postId)
+        await cloudinary.uploader.destroy(post.cloudinaryId);
+        await Comment.deleteMany({_id: {$in: post.comments}})
 
 		res.status(200).json();
 	} catch (err) {

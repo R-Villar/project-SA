@@ -39,19 +39,35 @@ export const authSlice = createSlice({
 			});
 			state.posts = updatedPosts;
 		},
-        updatePost: (state, action) => {
-            state.posts.map((post) => {
-                if (post._id === action.payload._id) {
-                    post.description = action.payload.description
-                }
-            })
-        },
+		setPostComment: (state, action) => {
+			const comment = action.payload.find((data) => data.postId);
+			const findPost = state.posts.find((post) => post._id === comment.postId);
+			findPost.comments.push(comment);
+		},
+
+		updatePost: (state, action) => {
+			state.posts.map((post) => {
+				if (post._id === action.payload._id) {
+					post.description = action.payload.description;
+				}
+			});
+		},
 		removePost: (state, action) => {
-			const postId = action.payload
-            state.posts = state.posts.filter((post) => post._id !== postId)
+			const postId = action.payload;
+			state.posts = state.posts.filter((post) => post._id !== postId);
 		},
 	},
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost, updatePost, removePost } = authSlice.actions;
+export const {
+	setMode,
+	setLogin,
+	setLogout,
+	setFriends,
+	setPosts,
+	setPost,
+	updatePost,
+	removePost,
+	setPostComment,
+} = authSlice.actions;
 export default authSlice.reducer;

@@ -5,21 +5,24 @@ import User from "../models/User.js";
 // CREATE
 export const createComment = async (req, res) => {
 	try {
-		const { userId, detail, postId, parentCommentId } = req.body;
+		const { userId, content, postId, parentCommentId, firstName,  lastName,userPicturePath,} = req.body;
 		const post = await Post.findById(postId);
 
 		const newComment = new Comment({
 			parentCommentId,
 			userId,
 			postId,
-			detail,
+			content,
+            firstName,
+            lastName,
+            userPicturePath,
 		});
 
 		await newComment.save();
 		await post.comments.push(newComment);
 
 		post.save();
-		const comment = await Comment.find();
+		const comment = await Comment.find(newComment);
 
 		res.status(200).json(comment);
 	} catch (err) {

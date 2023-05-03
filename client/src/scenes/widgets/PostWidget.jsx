@@ -1,6 +1,7 @@
 import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, FavoriteOutlined } from "@mui/icons-material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import { pink } from "@mui/material/colors";
 import { Box, Divider, IconButton, Typography, useTheme, Button, InputBase } from "@mui/material";
@@ -11,7 +12,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, removePost, updatePost } from "@/state";
 import ButtonGroup from "@mui/material/ButtonGroup";
-
+import { UserReply } from "@/components/UserReply";
+import UserImage from "@/components/UserImage";
 
 export const PostWidget = ({
 	postId,
@@ -26,6 +28,7 @@ export const PostWidget = ({
 }) => {
 	const [isComments, setIsComments] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
+	const [isReply, setIsReply] = useState(false);
 	const [postToEdit, setPostToEdit] = useState(description);
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
@@ -39,7 +42,7 @@ export const PostWidget = ({
 
 	const { _id } = useSelector((state) => state.user);
 	const isUserPost = _id === postUserId;
-    console.log(comments)
+
 	const patchLike = async () => {
 		const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
 			method: "PATCH",
@@ -127,6 +130,7 @@ export const PostWidget = ({
 					src={picturePath}
 				/>
 			)}
+
 			<FlexBetween mt='0.25rem'>
 				<FlexBetween mt='1rem'>
 					<FlexBetween gap='0.3rem'>
@@ -146,6 +150,12 @@ export const PostWidget = ({
 						</IconButton>
 						<Typography>{comments.length}</Typography>
 					</FlexBetween>
+
+					<FlexBetween gap='0.3rem'>
+						<IconButton onClick={() => setIsReply(!isReply)} aria-label='Reply'>
+							<ReplyOutlinedIcon />
+						</IconButton>
+					</FlexBetween>
 				</FlexBetween>
 
 				{isUserPost && (
@@ -161,13 +171,22 @@ export const PostWidget = ({
 				)}
 			</FlexBetween>
 
+			{isReply && <UserReply postId={postId} />}
+
 			{isComments && (
 				<Box mt='0.5rem'>
-					{comments.map(({_id, detail}) => (
-                        
+					{comments.map(({ _id, content, userPicturePath, firstName, lastName }) => (
 						<Box key={`${_id}`}>
 							<Divider />
-							<Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>{detail}</Typography>
+							<Box display='flex' gap='0.5rem'>
+								<UserImage image={userPicturePath} size='35px' />
+								<Box mt='0.3rem'>
+									<Typography variant='h6'>
+										{firstName} {lastName}
+									</Typography>
+								</Box>
+							</Box>
+							<Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>{content}</Typography>
 						</Box>
 					))}
 					<Divider />

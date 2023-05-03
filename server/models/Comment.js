@@ -12,7 +12,7 @@ const commentSchema = mongoose.Schema(
 			ref: "Comment",
 			required: false, // if not populated, then its a top level comment
 		},
-		detail: {
+		content: {
 			type: String,
 			required: true,
 		},
@@ -20,7 +20,16 @@ const commentSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
 			required: true,
-        }
+        },
+        firstName: {
+			type: String,
+			required: true,
+		},
+		lastName: {
+			type: String,
+			required: true,
+		},
+        userPicturePath: String,
 	},
 	{ timestamps: true }
 );

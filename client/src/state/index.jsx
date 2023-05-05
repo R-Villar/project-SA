@@ -44,28 +44,24 @@ export const authSlice = createSlice({
 			const findPost = state.posts.find((post) => post._id === comment.postId);
 			findPost.comments.push(comment);
 		},
-        removeComment: (state, action) => {
-            // not done
-            const postId = action.payload.postId
-            const commentId = action.payload._id
-
-            state.posts.map((post) => {
-                if (post._id === postId) {
-                    post.comments.filter((comment) => comment._id !== commentId)
-                }
-            })
-        },
-        updateCommentContent: (state, action) => {
-            state.posts.map((post) => {
-                if (post._id === action.payload.postId) {
-                    post.comments.map((comment) => {
-                        if (comment._id === action.payload._id) {
-                            comment.content = action.payload.content
-                        }
-                    })
-                }
-            })
-        },
+		removeComment: (state, action) => {
+			state.posts.map((post) => {
+				if (post._id === action.payload.postId) {
+					post.comments = post.comments.filter((comment) => comment._id !== action.payload._id);
+				}
+			});
+		},
+		updateCommentContent: (state, action) => {
+			state.posts.map((post) => {
+				if (post._id === action.payload.postId) {
+					post.comments.map((comment) => {
+						if (comment._id === action.payload._id) {
+							comment.content = action.payload.content;
+						}
+					});
+				}
+			});
+		},
 		updatePost: (state, action) => {
 			state.posts.map((post) => {
 				if (post._id === action.payload._id) {
@@ -90,7 +86,7 @@ export const {
 	updatePost,
 	removePost,
 	setPostComment,
-    removeComment,
-    updateCommentContent,
+	removeComment,
+	updateCommentContent,
 } = authSlice.actions;
 export default authSlice.reducer;

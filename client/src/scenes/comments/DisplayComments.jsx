@@ -60,7 +60,6 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 
 	const { palette } = useTheme();
 	const main = palette.neutral.main;
-    // console.log(editContent)
 	const open = Boolean(openMenu);
 	const handleClick = (event) => {
 		setOpenMenu(event.currentTarget);
@@ -82,10 +81,18 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 	};
 
 	const patchContent = async () => {
-		// console.log(comment)
+		await fetch(`http://localhost:3001/comments/${_id}`, {
+			method: "PATCH",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ content: editContent }),
+		});
+
 		dispatch(updateCommentContent({ _id, postId, content: editContent }));
 		handleClose();
-        setIsEdit(!isEdit)
+		setIsEdit(!isEdit);
 	};
 
 	return (

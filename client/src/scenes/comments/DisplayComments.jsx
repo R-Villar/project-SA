@@ -81,14 +81,16 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 	};
 
 	const patchContent = async () => {
-		await fetch(`http://localhost:3001/comments/${_id}`, {
-			method: "PATCH",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ content: editContent }),
-		});
+		if (editContent !== content) {
+			await fetch(`http://localhost:3001/comments/${_id}`, {
+				method: "PATCH",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ content: editContent }),
+			});
+		}
 
 		dispatch(updateCommentContent({ _id, postId, content: editContent }));
 		handleClose();

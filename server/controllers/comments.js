@@ -31,6 +31,7 @@ export const createComment = async (req, res) => {
 	}
 };
 
+// READ
 export const getPostComments = async (req, res) => {
 	try {
 		const post = await Post.findById({ _id: req.params.postId });
@@ -43,6 +44,7 @@ export const getPostComments = async (req, res) => {
 	}
 };
 
+// PATCH
 export const updateContent = async (req, res) => {
 	try {
 		const { commentId } = req.params;
@@ -50,5 +52,22 @@ export const updateContent = async (req, res) => {
 		res.status(200).json(updatedComment);
 	} catch (err) {
 		res.status(409).json({ message: err.message });
+	}
+};
+
+// DELETE
+export const deleteComment = async (req, res) => {
+	try {
+		const { commentId } = req.params;
+		const { postId } = req.params;
+		const post = await Post.findByIdAndUpdate(postId, { $pull: { comments: commentId } });
+		if (!post) {
+			return res.status(400).send("Post not found");
+		}
+		await Comment.findByIdAndDelete(commentId);
+        
+		res.status(200).json();
+	} catch (err) {
+		res.status(404).json({ message: err.message });
 	}
 };

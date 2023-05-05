@@ -7,9 +7,8 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Box, Divider, IconButton, Typography, useTheme, Button, InputBase } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPost, removePost, updatePost, removeComment, updateCommentContent } from "@/state";
+import { removeComment, updateCommentContent } from "@/state";
 import { styled, alpha } from "@mui/material/styles";
-import { EditAndDeleteComment } from "@/scenes/editAndDeleteComment/EditAndDeleteComment";
 import FlexBetween from "@/components/FlexBetween";
 import UserImage from "@/components/UserImage";
 
@@ -50,13 +49,15 @@ const StyledMenu = styled((props) => (
 	},
 }));
 
-export const DisplayComments = ({ _id, content, userPicturePath, firstName, lastName, postId }) => {
+export const DisplayComments = ({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const loggedInUserId = useSelector((state) => state.user._id);
 	const [openMenu, setOpenMenu] = useState(null);
 	const [editContent, setEditContent] = useState(content);
 	const [isEdit, setIsEdit] = useState(false);
+
+	const isUserComment = loggedInUserId === userId;
 
 	const { palette } = useTheme();
 	const main = palette.neutral.main;
@@ -69,13 +70,13 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 	};
 
 	const deleteComment = () => {
-		// fetch(`http://localhost:3001/posts/${postId}`, {
-		// 	method: "DELETE",
-		// 	headers: {
-		// 		Authorization: `Bearer ${token}`,
-		// 		"Content-Type": "application/json",
-		// 	},
-		// });
+		fetch(`http://localhost:3001/comments/${postId}/${_id}`, {
+			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+		});
 		dispatch(removeComment({ _id, postId }));
 		handleClose();
 	};
@@ -129,23 +130,25 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 					<Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>{editContent}</Typography>
 				)}
 			</FlexBetween>
-			<Box>
-				<IconButton variant='contained' onClick={handleClick}>
-					<MoreHorizOutlinedIcon />
-				</IconButton>
+			{isUserComment && (
+				<Box>
+					<IconButton variant='contained' onClick={handleClick}>
+						<MoreHorizOutlinedIcon />
+					</IconButton>
 
-				<StyledMenu anchorEl={openMenu} open={open} onClose={handleClose}>
-					<MenuItem onClick={() => setIsEdit(!isEdit)} disableRipple>
-						<EditOutlinedIcon />
-						Edit
-					</MenuItem>
+					<StyledMenu anchorEl={openMenu} open={open} onClose={handleClose}>
+						<MenuItem onClick={() => setIsEdit(!isEdit)} disableRipple>
+							<EditOutlinedIcon />
+							Edit
+						</MenuItem>
 
-					<MenuItem onClick={deleteComment} disableRipple>
-						<DeleteOutlinedIcon />
-						Delete
-					</MenuItem>
-				</StyledMenu>
-			</Box>
+						<MenuItem onClick={deleteComment} disableRipple>
+							<DeleteOutlinedIcon />
+							Delete
+						</MenuItem>
+					</StyledMenu>
+				</Box>
+			)}
 		</Box>
 	);
 };

@@ -14,6 +14,7 @@ import { setPost, removePost, updatePost } from "@/state";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { UserReply } from "@/components/UserReply";
 import UserImage from "@/components/UserImage";
+import { DisplayComments } from "@/scenes/comments/DisplayComments";
 
 export const PostWidget = ({
 	postId,
@@ -30,6 +31,7 @@ export const PostWidget = ({
 	const [isEdit, setIsEdit] = useState(false);
 	const [isReply, setIsReply] = useState(false);
 	const [postToEdit, setPostToEdit] = useState(description);
+
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const loggedInUserId = useSelector((state) => state.user._id);
@@ -173,25 +175,19 @@ export const PostWidget = ({
 
 			{isReply && <UserReply postId={postId} />}
 
-			{isComments && (
-				<Box mt='0.5rem'>
-					{comments.map(({ _id, content, userPicturePath, firstName, lastName }) => (
-						<Box key={`${_id}`}>
-							<Divider />
-							<Box display='flex' gap='0.5rem'>
-								<UserImage image={userPicturePath} size='35px' />
-								<Box mt='0.3rem'>
-									<Typography variant='h6'>
-										{firstName} {lastName}
-									</Typography>
-								</Box>
-							</Box>
-							<Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>{content}</Typography>
-						</Box>
-					))}
-					<Divider />
-				</Box>
-			)}
+			{isComments &&
+				comments.map(({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => (
+					<DisplayComments
+						key={_id}
+						_id={_id}
+						content={content}
+						userPicturePath={userPicturePath}
+						firstName={firstName}
+						lastName={lastName}
+						postId={postId}
+						userId={userId}
+					/>
+				))}
 		</WidgetWrapper>
 	);
 };

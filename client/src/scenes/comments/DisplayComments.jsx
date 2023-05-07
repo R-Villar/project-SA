@@ -91,10 +91,10 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 				},
 				body: JSON.stringify({ content: editContent }),
 			});
+
+			dispatch(updateCommentContent({ _id, postId, content: editContent }));
 		}
 
-		dispatch(updateCommentContent({ _id, postId, content: editContent }));
-		handleClose();
 		setIsEdit(!isEdit);
 	};
 
@@ -137,7 +137,12 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 					</IconButton>
 
 					<StyledMenu anchorEl={openMenu} open={open} onClose={handleClose}>
-						<MenuItem onClick={() => setIsEdit(!isEdit)} disableRipple>
+						<MenuItem
+							onClick={() => {
+								setIsEdit(!isEdit), handleClose();
+							}}
+							disableRipple
+						>
 							<EditOutlinedIcon />
 							Edit
 						</MenuItem>

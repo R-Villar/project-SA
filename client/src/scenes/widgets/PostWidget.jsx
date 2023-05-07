@@ -59,7 +59,8 @@ export const PostWidget = ({
 	};
 
 	const patchDescription = async () => {
-		await fetch(`http://localhost:3001/posts/${postId}/description`, {
+        if (postToEdit !== description) {
+            await fetch(`http://localhost:3001/posts/${postId}/description`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -69,6 +70,9 @@ export const PostWidget = ({
 		});
 
 		dispatch(updatePost({ _id: postId, description: postToEdit }));
+
+        }
+		
 	};
 
 	const deletePost = async () => {

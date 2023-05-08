@@ -7,16 +7,7 @@ import {
 	MicOutlined,
 	MoreHorizOutlined,
 } from "@mui/icons-material";
-import {
-	Box,
-	Divider,
-	Typography,
-	InputBase,
-	useTheme,
-	Button,
-	IconButton,
-	useMediaQuery,
-} from "@mui/material";
+import { Box, Divider, Typography, useTheme, Button, IconButton, useMediaQuery } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 import Dropzone from "react-dropzone";
 import UserImage from "@/components/UserImage";
@@ -24,6 +15,7 @@ import WidgetWrapper from "@/components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/state";
+import { UserInputField } from "@/components/UserInputField";
 
 export const MyPostWidget = ({ picturePath }) => {
 	const dispatch = useDispatch();
@@ -37,7 +29,6 @@ export const MyPostWidget = ({ picturePath }) => {
 	const mediumMain = palette.neutral.mediumMain;
 	const medium = palette.neutral.medium;
 
-    
 	const handlePost = async () => {
 		const formData = new FormData();
 		formData.append("userId", _id);
@@ -60,18 +51,8 @@ export const MyPostWidget = ({ picturePath }) => {
 	return (
 		<WidgetWrapper>
 			<FlexBetween gap='1.5rem'>
-				<UserImage image={picturePath}  />
-				<InputBase
-					placeholder="What's on your mind..."
-					onChange={(e) => setPost(e.target.value)}
-					value={post}
-					sx={{
-						width: "100%",
-						backgroundColor: palette.neutral.light,
-						borderRadius: "2rem",
-						padding: "0.5rem 2rem",
-					}}
-				/>
+				<UserImage image={picturePath} />
+				<UserInputField setPost={setPost} post={post} />
 			</FlexBetween>
 			{isImage && (
 				<Box border={`1px solid ${medium}`} borderRadius='5px' mt='1rem' p='1rem'>

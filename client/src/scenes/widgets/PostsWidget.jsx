@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/state";
 import { PostWidget } from "./PostWidget";
 
-export const PostsWidget = ({ userId, isProfile = false }) => {
+export const PostsWidget = ({setIsLoading, isLoading, userId, isProfile = false }) => {
 	const dispatch = useDispatch();
 	const posts = useSelector((state) => state.posts);
 	const token = useSelector((state) => state.token);
 
-	const [isLoading, setIsLoading] = useState(true);
 
 	const getPosts = async () => {
 		const response = await fetch("http://localhost:3001/posts", {

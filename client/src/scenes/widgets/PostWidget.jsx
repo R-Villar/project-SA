@@ -79,9 +79,9 @@ export const PostWidget = (props) => {
 			{props.isLoading ? (
 				<Box sx={{ display: "flex", alignItems: "center" }}>
 					<Skeleton animation='wave' variant='circular' width={60} height={60} />
-					<Box sx={{ width: '70%', margin: 1 }}>
+					<Box sx={{ width: "70%", margin: 1 }}>
 						<Skeleton animation='wave' variant='text' />
-            <Skeleton animation='wave' variant='text' />
+						<Skeleton animation='wave' variant='text' />
 					</Box>
 				</Box>
 			) : (
@@ -121,21 +121,21 @@ export const PostWidget = (props) => {
 				)}
 			</FlexBetween>
 
-      {props.isLoading ? (
-        <Skeleton animation='wave' variant="rectangular" width="100%">
-          <div style={{ paddingTop: '57%' }} />
-        </Skeleton>
-       ) : (
-			props.picturePath && (
-				<img
-					width='100%'
-					height='auto'
-					alt='Post'
-					style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-					src={props.picturePath}
-				/>
-			)
-      )}
+			{props.isLoading ? (
+				<Skeleton animation='wave' variant='rectangular' width='100%'>
+					<div style={{ paddingTop: "57%" }} />
+				</Skeleton>
+			) : (
+				props.picturePath && (
+					<img
+						width='100%'
+						height='auto'
+						alt='Post'
+						style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+						src={props.picturePath}
+					/>
+				)
+			)}
 
 			<FlexBetween mt='0.25rem'>
 				<FlexBetween mt='1rem'>

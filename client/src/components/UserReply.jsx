@@ -1,12 +1,11 @@
-import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
-import { Box, Divider, IconButton, Typography, useTheme, Button, InputBase } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPostComment } from "@/state";
+import { UserInputField } from "./UserInputField";
 
 export const UserReply = ({ postId }) => {
 	const dispatch = useDispatch();
-	const { palette } = useTheme();
 	const [comment, setComment] = useState("");
 	const { _id, firstName, lastName, picturePath } = useSelector((state) => state.user);
 	const token = useSelector((state) => state.token);
@@ -37,17 +36,7 @@ export const UserReply = ({ postId }) => {
 
 	return (
 		<Box component='form' onSubmit={handleComment} justifyContent='center' display='flex' mt='0.5rem'>
-			<InputBase
-				placeholder='Add a comment'
-				onChange={(e) => setComment(e.target.value)}
-				value={comment}
-				sx={{
-					width: "80%",
-					backgroundColor: palette.neutral.light,
-					borderRadius: "2rem",
-					padding: "0.5rem 2rem",
-				}}
-			/>
+			<UserInputField setPost={setComment} post={comment} />
 			<Button type='submit'>reply</Button>
 		</Box>
 	);

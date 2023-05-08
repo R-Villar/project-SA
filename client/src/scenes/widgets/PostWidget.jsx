@@ -4,7 +4,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import { pink } from "@mui/material/colors";
-import { Box, Divider, IconButton, Typography, useTheme, Button, InputBase } from "@mui/material";
+import { IconButton, Typography, useTheme, Button } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 import { Friend } from "@/components/Friend";
 import WidgetWrapper from "@/components/WidgetWrapper";
@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPost, removePost, updatePost } from "@/state";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { UserReply } from "@/components/UserReply";
-import UserImage from "@/components/UserImage";
 import { DisplayComments } from "@/scenes/comments/DisplayComments";
+import { UserInputField } from "@/components/UserInputField";
 
 export const PostWidget = ({
 	postId,
@@ -40,7 +40,6 @@ export const PostWidget = ({
 
 	const { palette } = useTheme();
 	const main = palette.neutral.main;
-	const primary = palette.primary.main;
 
 	const { _id } = useSelector((state) => state.user);
 	const isUserPost = _id === postUserId;
@@ -59,20 +58,18 @@ export const PostWidget = ({
 	};
 
 	const patchDescription = async () => {
-        if (postToEdit !== description) {
-            await fetch(`http://localhost:3001/posts/${postId}/description`, {
-			method: "PATCH",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ description: postToEdit }),
-		});
+		if (postToEdit !== description) {
+			await fetch(`http://localhost:3001/posts/${postId}/description`, {
+				method: "PATCH",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ description: postToEdit }),
+			});
 
-		dispatch(updatePost({ _id: postId, description: postToEdit }));
-
-        }
-		
+			dispatch(updatePost({ _id: postId, description: postToEdit }));
+		}
 	};
 
 	const deletePost = async () => {
@@ -93,16 +90,7 @@ export const PostWidget = ({
 			<FlexBetween mt='0.25rem'>
 				{isEdit ? (
 					<FlexBetween gap='1.5rem'>
-						<InputBase
-							value={postToEdit}
-							onChange={(e) => setPostToEdit(e.target.value)}
-							sx={{
-								width: "100%",
-								backgroundColor: palette.neutral.light,
-								borderRadius: "2rem",
-								padding: "0.5rem 2rem",
-							}}
-						/>
+						<UserInputField post={postToEdit} setPost={setPostToEdit} />
 					</FlexBetween>
 				) : (
 					<Typography color={main} sx={{ mt: "1rem" }}>

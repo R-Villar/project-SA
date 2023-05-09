@@ -3,6 +3,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import { pink } from "@mui/material/colors";
 import { IconButton, Typography, useTheme, Button, Box } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
@@ -11,32 +12,54 @@ import WidgetWrapper from "@/components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost, removePost, updatePost } from "@/state";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import { UserReply } from "@/components/UserReply";
 import { DisplayComments } from "@/scenes/comments/DisplayComments";
 import { UserInputField } from "@/components/UserInputField";
 import Skeleton from "@mui/material/Skeleton";
+import { StyledMenu } from "@/components/StyledMenu";
+import MenuItem from "@mui/material/MenuItem";
 
-export const PostWidget = (props) => {
+export const PostWidget = ({
+	isLoading,
+	postId,
+	postUserId,
+	name,
+	description,
+	location,
+	picturePath,
+	userPicturePath,
+	likes,
+	comments,
+}) => {
 	const [isComments, setIsComments] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
 	const [isReply, setIsReply] = useState(false);
-	const [postToEdit, setPostToEdit] = useState(props.description);
+	const [openMenu, setOpenMenu] = useState(null);
+	const [postToEdit, setPostToEdit] = useState(description);
 
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const loggedInUserId = useSelector((state) => state.user._id);
-	const isLiked = Boolean(props.likes[loggedInUserId]);
-	const likeCount = Object.keys(props.likes).length;
+	const isLiked = Boolean(likes[loggedInUserId]);
+	const likeCount = Object.keys(likes).length;
 
 	const { palette } = useTheme();
 	const main = palette.neutral.main;
 
 	const { _id } = useSelector((state) => state.user);
-	const isUserPost = _id === props.postUserId;
+	const isUserPost = _id === postUserId;
+
+	const open = Boolean(openMenu);
+
+	const handleClick = (event) => {
+		setOpenMenu(event.currentTarget);
+	};
+	const handleClose = () => {
+		setOpenMenu(null);
+	};
 
 	const patchLike = async () => {
-		const response = await fetch(`http://localhost:3001/posts/${props.postId}/like`, {
+		const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -49,8 +72,8 @@ export const PostWidget = (props) => {
 	};
 
 	const patchDescription = async () => {
-		if (postToEdit !== props.description) {
-			await fetch(`http://localhost:3001/posts/${props.postId}/description`, {
+		if (postToEdit !== description) {
+			await fetch(`http://localhost:3001/posts/${postId}/description`, {
 				method: "PATCH",
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -59,24 +82,25 @@ export const PostWidget = (props) => {
 				body: JSON.stringify({ description: postToEdit }),
 			});
 
-			dispatch(updatePost({ _id: props.postId, description: postToEdit }));
+			dispatch(updatePost({ _id: postId, description: postToEdit }));
 		}
+		setIsEdit(!isEdit);
 	};
 
 	const deletePost = async () => {
-		fetch(`http://localhost:3001/posts/${props.postId}`, {
+		fetch(`http://localhost:3001/posts/${postId}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
 		});
-		dispatch(removePost(props.postId));
+		dispatch(removePost(postId));
 	};
 
 	return (
 		<WidgetWrapper m='2rem 0'>
-			{props.isLoading ? (
+			{isLoading ? (
 				<Box sx={{ display: "flex", alignItems: "center" }}>
 					<Skeleton animation='wave' variant='circular' width={60} height={60} />
 					<Box sx={{ width: "70%", margin: 1 }}>
@@ -86,18 +110,23 @@ export const PostWidget = (props) => {
 				</Box>
 			) : (
 				<Friend
-					friendId={props.postUserId}
-					name={props.name}
-					subtitle={props.location}
-					userPicturePath={props.userPicturePath}
+					friendId={postUserId}
+					name={name}
+					subtitle={location}
+					userPicturePath={userPicturePath}
 				/>
 			)}
 
 			<FlexBetween mt='0.25rem'>
 				{isEdit ? (
-					<FlexBetween gap='1.5rem'>
-						<UserInputField post={postToEdit} setPost={setPostToEdit} />
-					</FlexBetween>
+					<>
+						<FlexBetween gap='1.5rem'>
+							<UserInputField post={postToEdit} setPost={setPostToEdit} />
+						</FlexBetween>
+						<Button onClick={patchDescription} endIcon={<DoneOutlinedIcon />}>
+							Done
+						</Button>
+					</>
 				) : (
 					<Typography color={main} sx={{ mt: "1rem" }}>
 						{postToEdit}
@@ -106,33 +135,40 @@ export const PostWidget = (props) => {
 
 				{isUserPost && (
 					<FlexBetween>
-						<FlexBetween gap='0.3rem'>
-							<ButtonGroup onClick={() => setIsEdit(!isEdit)}>
-								{!isEdit ? (
-									<Button endIcon={<EditOutlinedIcon />}>Edit</Button>
-								) : (
-									<Button onClick={patchDescription} endIcon={<DoneOutlinedIcon />}>
-										Done
-									</Button>
-								)}
-							</ButtonGroup>
-						</FlexBetween>
+						<IconButton variant='contained' onClick={handleClick}>
+							<MoreHorizOutlinedIcon />
+						</IconButton>
+						<StyledMenu anchorEl={openMenu} open={open} onClose={handleClose}>
+							<MenuItem
+								onClick={() => {
+									setIsEdit(!isEdit), handleClose();
+								}}
+								disableRipple
+							>
+								<EditOutlinedIcon />
+								Edit
+							</MenuItem>
+							<MenuItem onClick={deletePost}>
+								<DeleteOutlinedIcon />
+								delete
+							</MenuItem>
+						</StyledMenu>
 					</FlexBetween>
 				)}
 			</FlexBetween>
 
-			{props.isLoading ? (
+			{isLoading ? (
 				<Skeleton animation='wave' variant='rectangular' width='100%'>
 					<div style={{ paddingTop: "57%" }} />
 				</Skeleton>
 			) : (
-				props.picturePath && (
+				picturePath && (
 					<img
 						width='100%'
 						height='auto'
 						alt='Post'
 						style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-						src={props.picturePath}
+						src={picturePath}
 					/>
 				)
 			)}
@@ -154,7 +190,7 @@ export const PostWidget = (props) => {
 						<IconButton onClick={() => setIsComments(!isComments)}>
 							<ChatBubbleOutlineOutlined />
 						</IconButton>
-						<Typography>{props.comments.length}</Typography>
+						<Typography>{comments.length}</Typography>
 					</FlexBetween>
 
 					<FlexBetween gap='0.3rem'>
@@ -164,7 +200,7 @@ export const PostWidget = (props) => {
 					</FlexBetween>
 				</FlexBetween>
 
-				{isUserPost && (
+				{/* {isUserPost && (
 					<FlexBetween mt='0.25rem'>
 						<FlexBetween mt='1rem'>
 							<FlexBetween gap='0.3rem'>
@@ -174,13 +210,13 @@ export const PostWidget = (props) => {
 							</FlexBetween>
 						</FlexBetween>
 					</FlexBetween>
-				)}
+				)} */}
 			</FlexBetween>
 
 			{isReply && <UserReply postId={props.postId} />}
 
 			{isComments &&
-				props.comments.map(
+				comments.map(
 					({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => (
 						<DisplayComments
 							key={_id}

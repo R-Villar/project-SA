@@ -88,7 +88,9 @@ export const getUserPosts = async (req, res) => {
 export const deletePost = async (req, res) => {
 	try {
         const post = await Post.findByIdAndDelete(req.params.postId)
-        await cloudinary.uploader.destroy(post.cloudinaryId);
+        if (post.cloudinaryId) {
+          await cloudinary.uploader.destroy(post.cloudinaryId);
+        }
         await Comment.deleteMany({_id: {$in: post.comments}})
 
 		res.status(200).json();

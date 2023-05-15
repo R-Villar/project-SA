@@ -8,10 +8,16 @@ export const register = async (req, res) => {
 	try {
 		const { firstName, lastName, email, password, friends, location, occupation } = req.body;
 
+		const findOneEmail = await User.findOne({ email: email });
+
+		if (findOneEmail) {
+			return res.status(409).json("An account with that email already exists");
+		}
+
 		const result = await cloudinary.uploader.upload(req.file.path, {
 			folder: "user_profile",
 		});
-		console.log(result);
+
 		const salt = await bcrypt.genSalt();
 		const passwordHash = await bcrypt.hash(password, salt);
 
@@ -28,10 +34,11 @@ export const register = async (req, res) => {
 			impressions: Math.floor(Math.random() * 1000),
 		});
 
-		const savedUser = await newUser.save();
-		res.status(201).json(savedUser);
-	} catch (err) {
-		res.status(500).json({ error: err.message });
+		await newUser.save();
+
+		res.status(201).json("Account created successfully");
+	} catch (error) {
+		res.status(400).json({ error: error.message });
 	}
 };
 

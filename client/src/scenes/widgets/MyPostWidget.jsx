@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/state";
 import { UserInputField } from "@/components/UserInputField";
+import { useSnackbar } from "notistack";
 
 export const MyPostWidget = ({ picturePath }) => {
 	const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export const MyPostWidget = ({ picturePath }) => {
 	const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 	const mediumMain = palette.neutral.mediumMain;
 	const medium = palette.neutral.medium;
+	const { enqueueSnackbar } = useSnackbar();
 
 	const handlePost = async () => {
 		const formData = new FormData();
@@ -42,10 +44,17 @@ export const MyPostWidget = ({ picturePath }) => {
 			headers: { Authorization: `Bearer ${token}` },
 			body: formData,
 		});
-		const posts = await response.json();
-		dispatch(setPosts({ posts }));
-		setImage(null);
-		setPost("");
+
+		if (response.ok) {
+			const posts = await response.json();
+			dispatch(setPosts({ posts }));
+			setImage(null);
+			setPost("");
+      enqueueSnackbar("Post created", { variant: "success" });
+		} else {
+			const error = await response.json();
+			enqueueSnackbar(error.message, { variant: "error" });
+		}
 	};
 
 	return (

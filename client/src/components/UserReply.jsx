@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPostComment } from "@/state";
 import { UserInputField } from "./UserInputField";
+import { useSnackbar } from "notistack";
 
 export const UserReply = ({ postId }) => {
 	const dispatch = useDispatch();
 	const [comment, setComment] = useState("");
 	const { _id, firstName, lastName, picturePath } = useSelector((state) => state.user);
 	const token = useSelector((state) => state.token);
+	const { enqueueSnackbar } = useSnackbar();
 
 	const handleComment = async (e) => {
 		e.preventDefault();
@@ -29,9 +31,15 @@ export const UserReply = ({ postId }) => {
 			},
 			body: JSON.stringify(commentData),
 		});
-		const data = await response.json();
-		dispatch(setPostComment(data));
-		setComment("");
+		if (response.ok) {
+			const data = await response.json();
+			dispatch(setPostComment(data));
+			setComment("");
+			enqueueSnackbar("Comment posted", { variant: "info" });
+		} else {
+			const error = await response.json();
+			enqueueSnackbar(error.message, { variant: "error" });
+		}
 	};
 
 	return (

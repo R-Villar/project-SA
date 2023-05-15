@@ -4,23 +4,30 @@ import WidgetWrapper from "@/components/WidgetWrapper";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "@/state";
+import { useSnackbar } from "notistack";
 
 export const FriendListWidget = ({ userId }) => {
 	const dispatch = useDispatch();
 	const { palette } = useTheme();
 	const token = useSelector((state) => state.token);
 	const friends = useSelector((state) => state.user.friends);
+	const { enqueueSnackbar } = useSnackbar();
 
 	const dark = palette.neutral.dark;
 
-  const getFriends = async () => {
-    const response = await fetch(`http://localhost:3001/users/${userId}/friends`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    dispatch(setFriends({ friends: data }));
-  };
+	const getFriends = async () => {
+		const response = await fetch(`http://localhost:3001/users/${userId}/friends`, {
+			method: "GET",
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		if (response.ok) {
+			const data = await response.json();
+			dispatch(setFriends({ friends: data }));
+		} else {
+			const error = await response.json();
+			enqueueSnackbar(error.message, { variant: "error" });
+		}
+	};
 
 	useEffect(() => {
 		getFriends();

@@ -79,9 +79,10 @@ export const Form = () => {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(values),
 		});
-		const loggedIn = await loggedInResponse.json();
-		onSubmitProps.resetForm();
-		if (loggedIn) {
+
+		if (loggedInResponse.ok) {
+			const loggedIn = await loggedInResponse.json();
+			onSubmitProps.resetForm();
 			dispatch(
 				setLogin({
 					user: loggedIn.user,
@@ -89,6 +90,9 @@ export const Form = () => {
 				})
 			);
 			navigate("/home");
+		} else {
+			const responseData = await loggedInResponse.json();
+			enqueueSnackbar(responseData.error, { variant: "error" });
 		}
 	};
 

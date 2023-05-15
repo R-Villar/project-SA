@@ -93,7 +93,7 @@ export const deletePost = async (req, res) => {
 		}
 		await Comment.deleteMany({ _id: { $in: post.comments } });
 
-		res.status(200).json();
+		res.status(200).json("Post deleted successfully.");
 	} catch (err) {
 		res.status(404).json({ message: err.message });
 	}
@@ -106,6 +106,8 @@ export const likePost = async (req, res) => {
 		const { userId } = req.body;
 		const post = await Post.findById(id);
 		const isLiked = post.likes.get(userId);
+
+		if (!post) return res.status(400).send("No post found.");
 
 		if (isLiked) {
 			post.likes.delete(userId);

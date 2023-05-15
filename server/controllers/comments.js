@@ -9,7 +9,7 @@ export const createComment = async (req, res) => {
 		const post = await Post.findById(postId);
 
 		if (!post) {
-			return res.status(404).json("Post not found");
+			return res.status(400).json("Post not found");
 		}
 
 		const newComment = new Comment({
@@ -69,7 +69,7 @@ export const deleteComment = async (req, res) => {
 		}
 		await Comment.findByIdAndDelete(commentId);
 
-		res.status(200).json();
+		res.status(200).json('Comment deleted.');
 	} catch (err) {
 		res.status(404).json({ message: err.message });
 	}

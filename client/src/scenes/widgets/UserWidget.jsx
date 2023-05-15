@@ -11,12 +11,14 @@ import WidgetWrapper from "@/components/WidgetWrapper";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 export const UserWidget = ({ userId, picturePath }) => {
 	const [user, setUser] = useState(null);
 	const { palette } = useTheme();
 	const navigate = useNavigate();
 	const token = useSelector((state) => state.token);
+  const { enqueueSnackbar } = useSnackbar();
 	const dark = palette.neutral.dark;
 	const medium = palette.neutral.medium;
 	const main = palette.neutral.main;
@@ -26,8 +28,13 @@ export const UserWidget = ({ userId, picturePath }) => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
+    if (response.ok) {
     const data = await response.json();
     setUser(data);
+    } else {
+      const error = await response.json();
+      enqueueSnackbar(error.message, { variant: "error" });
+    }
   };
 
 	useEffect(() => {

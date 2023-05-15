@@ -5,6 +5,7 @@ import { setFriends } from "@/state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 	const dispatch = useDispatch();
@@ -12,6 +13,7 @@ export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 	const { _id } = useSelector((state) => state.user);
 	const token = useSelector((state) => state.token);
 	const friends = useSelector((state) => state.user.friends);
+	const { enqueueSnackbar } = useSnackbar();
 
 	const { palette } = useTheme();
 	const primaryLight = palette.primary.light;
@@ -30,8 +32,13 @@ export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 				"Content-Type": "application/json",
 			},
 		});
-		const data = await response.json();
-		dispatch(setFriends({ friends: data }));
+		if (response.ok) {
+			const data = await response.json();
+			dispatch(setFriends({ friends: data }));
+		} else {
+			const error = await response.json();
+			enqueueSnackbar(error.message, { variant: "error" });
+		}
 	};
 
 	return (

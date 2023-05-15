@@ -8,6 +8,10 @@ export const createComment = async (req, res) => {
 		const { userId, content, postId, parentCommentId, firstName, lastName, userPicturePath } = req.body;
 		const post = await Post.findById(postId);
 
+		if (!post) {
+			return res.status(404).json("Post not found");
+		}
+
 		const newComment = new Comment({
 			parentCommentId,
 			userId,
@@ -26,7 +30,6 @@ export const createComment = async (req, res) => {
 
 		res.status(200).json(comment);
 	} catch (err) {
-		console.error(err);
 		res.status(500).send({ message: err.message });
 	}
 };
@@ -65,7 +68,7 @@ export const deleteComment = async (req, res) => {
 			return res.status(400).send("Post not found");
 		}
 		await Comment.findByIdAndDelete(commentId);
-        
+
 		res.status(200).json();
 	} catch (err) {
 		res.status(404).json({ message: err.message });

@@ -10,7 +10,7 @@ import {
 	useTheme,
 	useMediaQuery,
 } from "@mui/material";
-import { Search, Message, DarkMode, LightMode, Notifications, Help, Menu, Close } from "@mui/icons-material";
+import { DarkMode, LightMode, Menu, Close } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "@/state";
 import { useNavigate } from "react-router-dom";
@@ -44,19 +44,6 @@ export const Navbar = () => {
 				>
 					Social App
 				</Typography>
-				{isNonMobileScreens && (
-					<FlexBetween
-						background={neutralLight}
-						borderRadius='9px'
-						gap='3rem'
-						padding='0.1rem 1.5rem'
-					>
-						<InputBase placeholder='Search...' />
-						<IconButton>
-							<Search />
-						</IconButton>
-					</FlexBetween>
-				)}
 			</FlexBetween>
 			{/* DESKTOP NAV */}
 			{isNonMobileScreens ? (
@@ -68,9 +55,6 @@ export const Navbar = () => {
 							<LightMode sx={{ color: dark, fontSize: "25px" }} />
 						)}
 					</IconButton>
-					<Message sx={{ fontSize: "25px" }} />
-					<Notifications sx={{ fontSize: "25px" }} />
-					<Help sx={{ fontSize: "25px" }} />
 					<FormControl variant='standard' value={fullName}>
 						<Select
 							value={fullName}
@@ -133,9 +117,6 @@ export const Navbar = () => {
 								<LightMode sx={{ color: dark, fontSize: "25px" }} />
 							)}
 						</IconButton>
-						<Message sx={{ fontSize: "25px" }} />
-						<Notifications sx={{ fontSize: "25px" }} />
-						<Help sx={{ fontSize: "25px" }} />
 						<FormControl variant='standard' value={fullName}>
 							<Select
 								value={fullName}

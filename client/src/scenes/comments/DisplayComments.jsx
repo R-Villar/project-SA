@@ -11,6 +11,11 @@ import FlexBetween from "@/components/FlexBetween";
 import UserImage from "@/components/UserImage";
 import { StyledMenu } from "@/components/StyledMenu";
 import { useSnackbar } from "notistack";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export const DisplayComments = ({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => {
 	const dispatch = useDispatch();
@@ -19,6 +24,7 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 	const [openMenu, setOpenMenu] = useState(null);
 	const [editContent, setEditContent] = useState(content);
 	const [isEdit, setIsEdit] = useState(false);
+	const [openConfirm, setOpenConfirm] = useState(false);
 	const { enqueueSnackbar } = useSnackbar();
 
 	const isUserComment = loggedInUserId === userId;
@@ -87,6 +93,7 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 				</Box>
 			</Box>
 			<FlexBetween mt='0.25rem'>
+        
 				{isEdit ? (
 					<FlexBetween gap='1.5rem'>
 						<InputBase
@@ -107,6 +114,7 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 					<Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>{editContent}</Typography>
 				)}
 			</FlexBetween>
+
 			{isUserComment && (
 				<Box>
 					<IconButton variant='contained' onClick={handleClick}>
@@ -124,13 +132,39 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 							Edit
 						</MenuItem>
 
-						<MenuItem onClick={deleteComment} disableRipple>
+						<MenuItem onClick={() => setOpenConfirm(true)} disableRipple>
 							<DeleteOutlinedIcon />
 							Delete
 						</MenuItem>
 					</StyledMenu>
 				</Box>
 			)}
+
+			<Dialog
+				open={openConfirm}
+				onClose={() => setOpenConfirm(false)}
+				aria-labelledby='alert-dialog-title'
+				aria-describedby='alert-dialog-description'
+			>
+				<DialogTitle id='alert-dialog-title'>{"Delete Comment?"}</DialogTitle>
+				<DialogContent id='alert-dialog-content'>
+					<DialogContentText id='alert-dialog-description'>
+						Are you sure you want to delete this comment? this action can not be undone.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						onClick={() => {
+							setOpenConfirm(false), handleClose();
+						}}
+					>
+						Cancel
+					</Button>
+					<Button onClick={deleteComment} autoFocus>
+						delete
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</Box>
 	);
 };

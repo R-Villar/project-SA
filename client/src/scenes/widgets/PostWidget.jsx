@@ -19,6 +19,11 @@ import Skeleton from "@mui/material/Skeleton";
 import { StyledMenu } from "@/components/StyledMenu";
 import MenuItem from "@mui/material/MenuItem";
 import { useSnackbar } from "notistack";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export const PostWidget = ({
 	isLoading,
@@ -37,6 +42,7 @@ export const PostWidget = ({
 	const [isReply, setIsReply] = useState(false);
 	const [openMenu, setOpenMenu] = useState(null);
 	const [postToEdit, setPostToEdit] = useState(description);
+	const [openConfirm, setOpenConfirm] = useState(false);
 	const { enqueueSnackbar } = useSnackbar();
 
 	const dispatch = useDispatch();
@@ -112,7 +118,7 @@ export const PostWidget = ({
 			dispatch(removePost(postId));
 		} else {
 			const error = await response.json();
-      enqueueSnackbar(error.message, { variant: "error" });
+			enqueueSnackbar(error.message, { variant: "error" });
 		}
 	};
 
@@ -166,7 +172,7 @@ export const PostWidget = ({
 								<EditOutlinedIcon />
 								Edit
 							</MenuItem>
-							<MenuItem onClick={deletePost}>
+							<MenuItem onClick={() => setOpenConfirm(true)}>
 								<DeleteOutlinedIcon />
 								delete
 							</MenuItem>
@@ -174,6 +180,33 @@ export const PostWidget = ({
 					</FlexBetween>
 				)}
 			</FlexBetween>
+
+			<Dialog
+				open={openConfirm}
+				onClose={() => setOpenConfirm(false)}
+				aria-labelledby='alert-dialog-title'
+				aria-describedby='alert-dialog-description'
+			>
+				<DialogTitle id='alert-dialog-title'>{"Delete Post?"}</DialogTitle>
+				<DialogContent id='alert-dialog-content'>
+					<DialogContentText id='alert-dialog-description'>
+						Are you sure you want to delete this Post and all it's comments? this action can not
+						be undone.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button
+						onClick={() => {
+							setOpenConfirm(false), handleClose();
+						}}
+					>
+						Cancel
+					</Button>
+					<Button onClick={deletePost} autoFocus>
+						delete
+					</Button>
+				</DialogActions>
+			</Dialog>
 
 			{isLoading ? (
 				<Skeleton animation='wave' variant='rectangular' width='100%'>

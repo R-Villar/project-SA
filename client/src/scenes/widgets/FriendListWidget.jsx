@@ -13,15 +13,16 @@ export const FriendListWidget = ({ userId }) => {
 
 	const dark = palette.neutral.dark;
 
+  const getFriends = async () => {
+    const response = await fetch(`http://localhost:3001/users/${userId}/friends`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    dispatch(setFriends({ friends: data }));
+  };
+
 	useEffect(() => {
-		const getFriends = async () => {
-			const response = await fetch(`http://localhost:3001/users/${userId}/friends`, {
-				method: "GET",
-				headers: { Authorization: `Bearer ${token}` },
-			});
-			const data = await response.json();
-			dispatch(setFriends({ friends: data }));
-		};
 		getFriends();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 

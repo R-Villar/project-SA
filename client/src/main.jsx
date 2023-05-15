@@ -35,7 +35,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistStore(store)}>
-				<SnackbarProvider autoHideDuration={3000} hideIconVariant>
+				<SnackbarProvider
+					anchorOrigin={{
+						vertical: "top",
+						horizontal: "center",
+					}}
+					autoHideDuration={3000}
+				>
 					<App />
 				</SnackbarProvider>
 			</PersistGate>

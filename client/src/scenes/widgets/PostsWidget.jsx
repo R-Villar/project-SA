@@ -8,26 +8,28 @@ export const PostsWidget = ({ setIsLoading, isLoading, userId, isProfile = false
 	const posts = useSelector((state) => state.posts);
 	const token = useSelector((state) => state.token);
 
+	const getPosts = async () => {
+		const response = await fetch("http://localhost:3001/posts", {
+			method: "GET",
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		const data = await response.json();
+		dispatch(setPosts({ posts: data }));
+	};
+
+	const getUserPosts = async () => {
+		const response = await fetch(`http://localhost:3001/posts/userPost/${userId}`, {
+			method: "GET",
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		const data = await response.json();
+		dispatch(setPosts({ posts: data }));
+	};
+
 	useEffect(() => {
 		if (isProfile) {
-			const getUserPosts = async () => {
-				const response = await fetch(`http://localhost:3001/posts/userPost/${userId}`, {
-					method: "GET",
-					headers: { Authorization: `Bearer ${token}` },
-				});
-				const data = await response.json();
-				dispatch(setPosts({ posts: data }));
-			};
-
 			getUserPosts();
-			const getPosts = async () => {
-				const response = await fetch("http://localhost:3001/posts", {
-					method: "GET",
-					headers: { Authorization: `Bearer ${token}` },
-				});
-				const data = await response.json();
-				dispatch(setPosts({ posts: data }));
-			};
+		} else {
 			getPosts();
 		}
 		setIsLoading(false);

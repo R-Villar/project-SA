@@ -200,20 +200,9 @@ export const PostWidget = ({
 					</FlexBetween>
 				</FlexBetween>
 
-				{/* {isUserPost && (
-					<FlexBetween mt='0.25rem'>
-						<FlexBetween mt='1rem'>
-							<FlexBetween gap='0.3rem'>
-								<Button color='warning' onClick={deletePost} endIcon={<DeleteOutlinedIcon />}>
-									delete
-								</Button>
-							</FlexBetween>
-						</FlexBetween>
-					</FlexBetween>
-				)} */}
 			</FlexBetween>
 
-			{isReply && <UserReply postId={props.postId} />}
+			{isReply && <UserReply postId={postId} />}
 
 			{isComments &&
 				comments.map(({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => (

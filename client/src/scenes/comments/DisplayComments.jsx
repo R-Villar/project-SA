@@ -11,7 +11,6 @@ import FlexBetween from "@/components/FlexBetween";
 import UserImage from "@/components/UserImage";
 import { StyledMenu } from "@/components/StyledMenu";
 
-
 export const DisplayComments = ({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);

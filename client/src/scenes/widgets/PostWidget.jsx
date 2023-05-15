@@ -216,20 +216,18 @@ export const PostWidget = ({
 			{isReply && <UserReply postId={props.postId} />}
 
 			{isComments &&
-				comments.map(
-					({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => (
-						<DisplayComments
-							key={_id}
-							_id={_id}
-							content={content}
-							userPicturePath={userPicturePath}
-							firstName={firstName}
-							lastName={lastName}
-							postId={postId}
-							userId={userId}
-						/>
-					)
-				)}
+				comments.map(({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => (
+					<DisplayComments
+						key={_id}
+						_id={_id}
+						content={content}
+						userPicturePath={userPicturePath}
+						firstName={firstName}
+						lastName={lastName}
+						postId={postId}
+						userId={userId}
+					/>
+				))}
 		</WidgetWrapper>
 	);
 };

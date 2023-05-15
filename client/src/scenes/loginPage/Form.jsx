@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "@/state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "@/components/FlexBetween";
+import { useSnackbar } from "notistack";
 
 const registerSchema = yup.object().shape({
 	firstName: yup.string().required("required"),
@@ -47,6 +48,7 @@ export const Form = () => {
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 	const isLogin = pageType === "login";
 	const isRegister = pageType === "register";
+	const { enqueueSnackbar } = useSnackbar();
 
 	const register = async (values, onSubmitProps) => {
 		// this allows us to send form info with image
@@ -59,11 +61,15 @@ export const Form = () => {
 			method: "POST",
 			body: formData,
 		});
-		const savedUser = await savedUserResponse.json();
-		onSubmitProps.resetForm();
 
-		if (savedUser) {
+		if (savedUserResponse.ok) {
+			const responseData = await savedUserResponse.json();
+			enqueueSnackbar(responseData, { variant: "success" });
+			onSubmitProps.resetForm();
 			setPageType("login");
+		} else {
+			const responseData = await savedUserResponse.json();
+			enqueueSnackbar(responseData, { variant: "error" });
 		}
 	};
 
@@ -73,7 +79,7 @@ export const Form = () => {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(values),
 		});
-		const loggedIn = await loggedInResponse.json();
+		const loggedIn = await loggedInResponse.json().catch(console.error);
 		onSubmitProps.resetForm();
 		if (loggedIn) {
 			dispatch(

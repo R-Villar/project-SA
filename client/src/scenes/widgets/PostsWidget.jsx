@@ -3,34 +3,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/state";
 import { PostWidget } from "./PostWidget";
 
-export const PostsWidget = ({setIsLoading, isLoading, userId, isProfile = false }) => {
+export const PostsWidget = ({ setIsLoading, isLoading, userId, isProfile = false }) => {
 	const dispatch = useDispatch();
 	const posts = useSelector((state) => state.posts);
 	const token = useSelector((state) => state.token);
 
-
-	const getPosts = async () => {
-		const response = await fetch("http://localhost:3001/posts", {
-			method: "GET",
-			headers: { Authorization: `Bearer ${token}` },
-		});
-		const data = await response.json();
-		dispatch(setPosts({ posts: data }));
-	};
-
-	const getUserPosts = async () => {
-		const response = await fetch(`http://localhost:3001/posts/userPost/${userId}`, {
-			method: "GET",
-			headers: { Authorization: `Bearer ${token}` },
-		});
-		const data = await response.json();
-		dispatch(setPosts({ posts: data }));
-	};
-
 	useEffect(() => {
 		if (isProfile) {
+			const getUserPosts = async () => {
+				const response = await fetch(`http://localhost:3001/posts/userPost/${userId}`, {
+					method: "GET",
+					headers: { Authorization: `Bearer ${token}` },
+				});
+				const data = await response.json();
+				dispatch(setPosts({ posts: data }));
+			};
+
 			getUserPosts();
-		} else {
+			const getPosts = async () => {
+				const response = await fetch("http://localhost:3001/posts", {
+					method: "GET",
+					headers: { Authorization: `Bearer ${token}` },
+				});
+				const data = await response.json();
+				dispatch(setPosts({ posts: data }));
+			};
 			getPosts();
 		}
 		setIsLoading(false);

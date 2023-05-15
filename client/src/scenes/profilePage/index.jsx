@@ -13,7 +13,7 @@ export const ProfilePage = () => {
 	const { userId } = useParams();
 	const token = useSelector((state) => state.token);
 	const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-  const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const getUser = async () => {
@@ -50,7 +50,12 @@ export const ProfilePage = () => {
 				>
 					<MyPostWidget picturePath={user.picturePath} />
 					<Box m='2rem 0' />
-					<PostsWidget setIsLoading={setIsLoading} isLoading={isLoading} userId={userId} isProfile />
+					<PostsWidget
+						setIsLoading={setIsLoading}
+						isLoading={isLoading}
+						userId={userId}
+						isProfile
+					/>
 				</Box>
 			</Box>
 		</Box>

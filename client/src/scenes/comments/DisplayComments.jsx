@@ -10,6 +10,7 @@ import { removeComment, updateCommentContent } from "@/state";
 import FlexBetween from "@/components/FlexBetween";
 import UserImage from "@/components/UserImage";
 import { StyledMenu } from "@/components/StyledMenu";
+import { useSnackbar } from "notistack";
 
 export const DisplayComments = ({ _id, content, userPicturePath, firstName, lastName, postId, userId }) => {
 	const dispatch = useDispatch();
@@ -18,6 +19,7 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 	const [openMenu, setOpenMenu] = useState(null);
 	const [editContent, setEditContent] = useState(content);
 	const [isEdit, setIsEdit] = useState(false);
+	const { enqueueSnackbar } = useSnackbar();
 
 	const isUserComment = loggedInUserId === userId;
 
@@ -32,21 +34,28 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 		setOpenMenu(null);
 	};
 
-	const deleteComment = () => {
-		fetch(`http://localhost:3001/comments/${postId}/${_id}`, {
+	const deleteComment = async () => {
+		const response = await fetch(`http://localhost:3001/comments/${postId}/${_id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
 		});
-		dispatch(removeComment({ _id, postId }));
-		handleClose();
+		if (response.ok) {
+			const data = await response.json();
+			enqueueSnackbar(data, { variant: "info" });
+			dispatch(removeComment({ _id, postId }));
+			handleClose();
+		} else {
+			const error = await response.json();
+			enqueueSnackbar(error.message, { variant: "error" });
+		}
 	};
 
 	const patchContent = async () => {
 		if (editContent !== content) {
-			await fetch(`http://localhost:3001/comments/${_id}`, {
+			const response = await fetch(`http://localhost:3001/comments/${_id}`, {
 				method: "PATCH",
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -54,8 +63,13 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 				},
 				body: JSON.stringify({ content: editContent }),
 			});
-
-			dispatch(updateCommentContent({ _id, postId, content: editContent }));
+			if (response.ok) {
+				enqueueSnackbar("Comment updated", { variant: "info" });
+				dispatch(updateCommentContent({ _id, postId, content: editContent }));
+			} else {
+				const error = await response.json();
+				enqueueSnackbar(error.message, { variant: "error" });
+			}
 		}
 
 		setIsEdit(!isEdit);

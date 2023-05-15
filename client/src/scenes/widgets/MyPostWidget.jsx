@@ -50,7 +50,7 @@ export const MyPostWidget = ({ picturePath }) => {
 			dispatch(setPosts({ posts }));
 			setImage(null);
 			setPost("");
-      enqueueSnackbar("Post created", { variant: "success" });
+			enqueueSnackbar("Post created", { variant: "success" });
 		} else {
 			const error = await response.json();
 			enqueueSnackbar(error.message, { variant: "error" });

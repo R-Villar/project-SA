@@ -18,6 +18,7 @@ import { UserInputField } from "@/components/UserInputField";
 import Skeleton from "@mui/material/Skeleton";
 import { StyledMenu } from "@/components/StyledMenu";
 import MenuItem from "@mui/material/MenuItem";
+import { useSnackbar } from "notistack";
 
 export const PostWidget = ({
 	isLoading,
@@ -36,6 +37,7 @@ export const PostWidget = ({
 	const [isReply, setIsReply] = useState(false);
 	const [openMenu, setOpenMenu] = useState(null);
 	const [postToEdit, setPostToEdit] = useState(description);
+	const { enqueueSnackbar } = useSnackbar();
 
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
@@ -67,13 +69,18 @@ export const PostWidget = ({
 			},
 			body: JSON.stringify({ userId: loggedInUserId }),
 		});
-		const updatedPost = await response.json();
-		dispatch(setPost({ post: updatedPost }));
+		if (response.ok) {
+			const updatedPost = await response.json();
+			dispatch(setPost({ post: updatedPost }));
+		} else {
+			const error = await response.json();
+			enqueueSnackbar(error.message, { variant: "error" });
+		}
 	};
 
 	const patchDescription = async () => {
 		if (postToEdit !== description) {
-			await fetch(`http://localhost:3001/posts/${postId}/description`, {
+			const response = await fetch(`http://localhost:3001/posts/${postId}/description`, {
 				method: "PATCH",
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -81,21 +88,32 @@ export const PostWidget = ({
 				},
 				body: JSON.stringify({ description: postToEdit }),
 			});
-
-			dispatch(updatePost({ _id: postId, description: postToEdit }));
+			if (response.ok) {
+				dispatch(updatePost({ _id: postId, description: postToEdit }));
+			} else {
+				const error = await response.json();
+				enqueueSnackbar(error.message, { variant: "error" });
+			}
 		}
 		setIsEdit(!isEdit);
 	};
 
 	const deletePost = async () => {
-		fetch(`http://localhost:3001/posts/${postId}`, {
+		const response = await fetch(`http://localhost:3001/posts/${postId}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
 				"Content-Type": "application/json",
 			},
 		});
-		dispatch(removePost(postId));
+		if (response.ok) {
+			const deletedPost = await response.json();
+			enqueueSnackbar(deletedPost, { variant: "success" });
+			dispatch(removePost(postId));
+		} else {
+			const error = await response.json();
+      enqueueSnackbar(error.message, { variant: "error" });
+		}
 	};
 
 	return (
@@ -199,7 +217,6 @@ export const PostWidget = ({
 						</IconButton>
 					</FlexBetween>
 				</FlexBetween>
-
 			</FlexBetween>
 
 			{isReply && <UserReply postId={postId} />}

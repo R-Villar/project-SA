@@ -9,5 +9,8 @@ export default defineConfig({
 		alias: {
 			"@": path.resolve(__dirname, "src"),
 		},
+    exclude: [
+      '@ionic/core/loader' //fix weird Vite error "outdated optimize dep"
+  ],
 	},
 });

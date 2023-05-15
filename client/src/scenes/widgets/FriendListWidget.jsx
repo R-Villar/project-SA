@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "@/state";
 import { useSnackbar } from "notistack";
+import { v4 as uuidv4 } from 'uuid';
 
 export const FriendListWidget = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -41,7 +42,7 @@ export const FriendListWidget = ({ userId }) => {
 			<Box display='flex' flexDirection='column' gap='1.5rem'>
 				{friends.map((friend) => (
 					<Friend
-						key={friend._id}
+						key={uuidv4()}
 						friendId={friend._id}
 						name={`${friend.firstName} ${friend.lastName}`}
 						subtitle={friend.occupation}

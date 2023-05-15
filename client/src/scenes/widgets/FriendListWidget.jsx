@@ -4,7 +4,6 @@ import WidgetWrapper from "@/components/WidgetWrapper";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "@/state";
-import { v4 as uuidv4 } from "uuid";
 
 export const FriendListWidget = ({ userId }) => {
 	const dispatch = useDispatch();
@@ -14,16 +13,15 @@ export const FriendListWidget = ({ userId }) => {
 
 	const dark = palette.neutral.dark;
 
-	const getFriends = async () => {
-		const response = await fetch(`http://localhost:3001/users/${userId}/friends`, {
-			method: "GET",
-			headers: { Authorization: `Bearer ${token}` },
-		});
-		const data = await response.json();
-		dispatch(setFriends({ friends: data }));
-	};
-
 	useEffect(() => {
+		const getFriends = async () => {
+			const response = await fetch(`http://localhost:3001/users/${userId}/friends`, {
+				method: "GET",
+				headers: { Authorization: `Bearer ${token}` },
+			});
+			const data = await response.json();
+			dispatch(setFriends({ friends: data }));
+		};
 		getFriends();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -35,7 +33,7 @@ export const FriendListWidget = ({ userId }) => {
 			<Box display='flex' flexDirection='column' gap='1.5rem'>
 				{friends.map((friend) => (
 					<Friend
-						key={uuidv4()}
+						key={friend._id}
 						friendId={friend._id}
 						name={`${friend.firstName} ${friend.lastName}`}
 						subtitle={friend.occupation}

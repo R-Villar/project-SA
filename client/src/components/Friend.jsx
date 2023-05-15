@@ -37,7 +37,7 @@ export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 	return (
 		<FlexBetween>
 			<FlexBetween gap='1rem'>
-				<UserImage image={userPicturePath}  />
+				<UserImage image={userPicturePath} />
 				<Box
 					onClick={() => {
 						navigate(`/profile/${friendId}`);

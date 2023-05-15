@@ -79,7 +79,7 @@ export const Form = () => {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(values),
 		});
-		const loggedIn = await loggedInResponse.json().catch(console.error);
+		const loggedIn = await loggedInResponse.json();
 		onSubmitProps.resetForm();
 		if (loggedIn) {
 			dispatch(

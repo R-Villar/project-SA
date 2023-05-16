@@ -18,24 +18,24 @@ export const UserWidget = ({ userId, picturePath }) => {
 	const { palette } = useTheme();
 	const navigate = useNavigate();
 	const token = useSelector((state) => state.token);
-  const { enqueueSnackbar } = useSnackbar();
+	const { enqueueSnackbar } = useSnackbar();
 	const dark = palette.neutral.dark;
 	const medium = palette.neutral.medium;
 	const main = palette.neutral.main;
 
-  const getUser = async () => {
-    const response = await fetch(`http://localhost:3001/users/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (response.ok) {
-    const data = await response.json();
-    setUser(data);
-    } else {
-      const error = await response.json();
-      enqueueSnackbar(error.message, { variant: "error" });
-    }
-  };
+	const getUser = async () => {
+		const response = await fetch(`http://localhost:3001/users/${userId}`, {
+			method: "GET",
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		if (response.ok) {
+			const data = await response.json();
+			setUser(data);
+		} else {
+			const error = await response.json();
+			enqueueSnackbar(error.message, { variant: "error" });
+		}
+	};
 
 	useEffect(() => {
 		getUser();
@@ -68,32 +68,32 @@ export const UserWidget = ({ userId, picturePath }) => {
 						</Typography>
 						<Typography color={medium}>{friends.length} friends</Typography>
 					</Box>
-				</FlexBetween >
-				<ManageAccountsOutlined  />
+				</FlexBetween>
+				<ManageAccountsOutlined />
 			</FlexBetween>
 			<Divider />
 			{/* SECOND ROW */}
 			<Box p='1rem 0'>
 				<Box display='flex' alignItems='center' gap='1rem' mb='0.5rem'>
 					<LocationOnOutlined fontSize='large' sx={{ color: main }} />
-					<Typography color={medium}>{location}</Typography>
+					<Typography>{location}</Typography>
 				</Box>
 				<Box display='flex' alignItems='center' gap='1rem'>
 					<WorkOutlineOutlined fontSize='large' sx={{ color: main }} />
-					<Typography color={medium}>{occupation}</Typography>
+					<Typography>{occupation}</Typography>
 				</Box>
 			</Box>
 			<Divider />
 			{/* THIRD ROW */}
 			<Box p='1rem 0'>
 				<FlexBetween mb='0.5rem'>
-					<Typography color={medium}>Who's viewed your profile</Typography>
+					<Typography>Who's viewed your profile</Typography>
 					<Typography color={main} fontWeight='500'>
 						{viewedProfile}
 					</Typography>
 				</FlexBetween>
 				<FlexBetween>
-					<Typography color={medium}>Impressions of your post</Typography>
+					<Typography>Impressions of your post</Typography>
 					<Typography color={main} fontWeight='500'>
 						{impressions}
 					</Typography>

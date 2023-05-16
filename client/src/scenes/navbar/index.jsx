@@ -42,7 +42,7 @@ export const Navbar = () => {
 					onClick={() => navigate("/home")}
 					sx={{ "&:hover": { color: primaryLight, cursor: "pointer" } }}
 				>
-					Social App
+					SocialSpark
 				</Typography>
 			</FlexBetween>
 			{/* DESKTOP NAV */}

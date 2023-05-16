@@ -23,7 +23,7 @@ export const Footer = () => {
 						About us
 					</Typography>
 					<Typography variant='caption2'>
-						At Connectify, we believe in the transformative power of connections. Our mission is
+						At SocialSpark, we believe in the transformative power of connections. Our mission is
 						to create a social media app that brings people closer together, fostering meaningful
 						relationships, and promoting authentic interactions in the digital world.
 					</Typography>

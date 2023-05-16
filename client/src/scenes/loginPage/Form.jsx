@@ -237,6 +237,7 @@ export const Form = () => {
 					{/* BUTTONS */}
 					<Box>
 						<Button
+							variant='contained'
 							fullWidth
 							type='submit'
 							sx={{
@@ -249,7 +250,9 @@ export const Form = () => {
 						>
 							{isLogin ? "LOGIN" : "REGISTER"}
 						</Button>
-						<Typography
+						<Button
+							size='small'
+							variant='text'
 							onClick={() => {
 								setPageType(isLogin ? "register" : "login");
 								resetForm();
@@ -259,14 +262,14 @@ export const Form = () => {
 								color: palette.primary.main,
 								"&:hover": {
 									cursor: "pointer",
-									color: palette.primary.light,
+									color: palette.primary.main,
 								},
 							}}
 						>
 							{isLogin
 								? "Don't have an account? Sign Up here."
 								: "Already have an account? Login here."}
-						</Typography>
+						</Button>
 					</Box>
 				</form>
 			)}

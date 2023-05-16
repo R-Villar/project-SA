@@ -90,7 +90,7 @@ export const MyPostWidget = ({ picturePath }) => {
 				</Box>
 			)}
 
-			<Divider sx={{ margin: "1.25rem 0" }} />
+			<Divider sx={{ margin: "1rem 0" }} />
 
 			<FlexBetween>
 				<FlexBetween
@@ -102,6 +102,7 @@ export const MyPostWidget = ({ picturePath }) => {
 					<Typography>Image</Typography>
 				</FlexBetween>
 				<Button
+					variant='contained'
 					disabled={!post}
 					onClick={handlePost}
 					sx={{

@@ -124,37 +124,22 @@ export const PostWidget = ({
 
 	return (
 		<WidgetWrapper m='2rem 0'>
-			{isLoading ? (
-				<Box sx={{ display: "flex", alignItems: "center" }}>
-					<Skeleton animation='wave' variant='circular' width={60} height={60} />
-					<Box sx={{ width: "70%", margin: 1 }}>
-						<Skeleton animation='wave' variant='text' />
-						<Skeleton animation='wave' variant='text' />
+			<FlexBetween gap='0.5rem' pb='1.1rem'>
+				{isLoading ? (
+					<Box sx={{ display: "flex", alignItems: "center" }}>
+						<Skeleton animation='wave' variant='circular' width={60} height={60} />
+						<Box sx={{ width: "70%", margin: 1 }}>
+							<Skeleton animation='wave' variant='text' />
+							<Skeleton animation='wave' variant='text' />
+						</Box>
 					</Box>
-				</Box>
-			) : (
-				<Friend
-					friendId={postUserId}
-					name={name}
-					subtitle={location}
-					userPicturePath={userPicturePath}
-				/>
-			)}
-
-			<FlexBetween mt='0.25rem'>
-				{isEdit ? (
-					<>
-						<FlexBetween gap='1.5rem'>
-							<UserInputField post={postToEdit} setPost={setPostToEdit} />
-						</FlexBetween>
-						<Button onClick={patchDescription} endIcon={<DoneOutlinedIcon />}>
-							Done
-						</Button>
-					</>
 				) : (
-					<Typography color={main} sx={{ mt: "1rem" }}>
-						{postToEdit}
-					</Typography>
+					<Friend
+						friendId={postUserId}
+						name={name}
+						subtitle={location}
+						userPicturePath={userPicturePath}
+					/>
 				)}
 
 				{isUserPost && (
@@ -178,6 +163,23 @@ export const PostWidget = ({
 							</MenuItem>
 						</StyledMenu>
 					</FlexBetween>
+				)}
+			</FlexBetween>
+
+			<FlexBetween mt='0.25rem'>
+				{isEdit ? (
+					<>
+						<FlexBetween gap='1.5rem'>
+							<UserInputField post={postToEdit} setPost={setPostToEdit} />
+						</FlexBetween>
+						<Button onClick={patchDescription} endIcon={<DoneOutlinedIcon />}>
+							Done
+						</Button>
+					</>
+				) : (
+					<Typography color={main} sx={{ mt: "1rem" }}>
+						{postToEdit}
+					</Typography>
 				)}
 			</FlexBetween>
 

@@ -1,5 +1,6 @@
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { Form } from "./Form";
+import { Footer } from "@/components/Footer";
 
 export const LoginPage = () => {
 	const theme = useTheme();
@@ -19,11 +20,12 @@ export const LoginPage = () => {
 				borderRadius='1.5rem'
 				backgroundColor={theme.palette.background.alt}
 			>
-				<Typography fontWeight='500' variant='h5' sx={{ mb: "1.5rem" }}>
-					Welcome to my Social App
+				<Typography textAlign='center' fontWeight='500' variant='h5' sx={{ mb: "1.5rem" }}>
+					Log into my Social App
 				</Typography>
 				<Form />
 			</Box>
+			<Footer />
 		</Box>
 	);
 };

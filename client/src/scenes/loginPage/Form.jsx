@@ -121,10 +121,8 @@ export const Form = () => {
 					<Box
 						display='grid'
 						gap='30px'
-						// gridTemplateColumns='repeat(2, minmax(0, 1fr))'
 						gridTemplateColumns='repeat(4, minmax(0, 1fr))'
 						sx={{
-							//  "& > div": {gridColumn: isNonMobile ? undefined : "span 2"}
 							"& > div": {
 								gridColumn: isNonMobile ? undefined : "span 4",
 							},
@@ -237,6 +235,7 @@ export const Form = () => {
 					{/* BUTTONS */}
 					<Box>
 						<Button
+							variant='contained'
 							fullWidth
 							type='submit'
 							sx={{
@@ -249,7 +248,9 @@ export const Form = () => {
 						>
 							{isLogin ? "LOGIN" : "REGISTER"}
 						</Button>
-						<Typography
+						<Button
+							size='small'
+							variant='text'
 							onClick={() => {
 								setPageType(isLogin ? "register" : "login");
 								resetForm();
@@ -259,14 +260,14 @@ export const Form = () => {
 								color: palette.primary.main,
 								"&:hover": {
 									cursor: "pointer",
-									color: palette.primary.light,
+									color: palette.primary.main,
 								},
 							}}
 						>
 							{isLogin
 								? "Don't have an account? Sign Up here."
 								: "Already have an account? Login here."}
-						</Typography>
+						</Button>
 					</Box>
 				</form>
 			)}

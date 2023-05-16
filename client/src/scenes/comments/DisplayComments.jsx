@@ -84,16 +84,39 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 	return (
 		<Box mt='0.5rem' key={`${_id}`}>
 			<Divider sx={{ my: 0.5 }} />
-			<Box display='flex' gap='0.5rem'>
-				<UserImage image={userPicturePath} size='35px' />
-				<Box mt='0.3rem'>
-					<Typography variant='h6'>
-						{firstName} {lastName}
-					</Typography>
+			<FlexBetween gap='0.5rem' pb='1.1rem'>
+				<Box display='flex' gap='0.5rem'>
+					<UserImage image={userPicturePath} size='35px' />
+					<Box mt='0.3rem'>
+						<Typography variant='h6'>
+							{firstName} {lastName}
+						</Typography>
+					</Box>
 				</Box>
-			</Box>
+				{isUserComment && (
+					<Box>
+						<IconButton variant='contained' onClick={handleClick}>
+							<MoreHorizOutlinedIcon />
+						</IconButton>
+						<StyledMenu anchorEl={openMenu} open={open} onClose={handleClose}>
+							<MenuItem
+								onClick={() => {
+									setIsEdit(!isEdit), handleClose();
+								}}
+								disableRipple
+							>
+								<EditOutlinedIcon />
+								Edit
+							</MenuItem>
+							<MenuItem onClick={() => setOpenConfirm(true)} disableRipple>
+								<DeleteOutlinedIcon />
+								Delete
+							</MenuItem>
+						</StyledMenu>
+					</Box>
+				)}
+			</FlexBetween>
 			<FlexBetween mt='0.25rem'>
-        
 				{isEdit ? (
 					<FlexBetween gap='1.5rem'>
 						<InputBase
@@ -114,31 +137,6 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 					<Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>{editContent}</Typography>
 				)}
 			</FlexBetween>
-
-			{isUserComment && (
-				<Box>
-					<IconButton variant='contained' onClick={handleClick}>
-						<MoreHorizOutlinedIcon />
-					</IconButton>
-
-					<StyledMenu anchorEl={openMenu} open={open} onClose={handleClose}>
-						<MenuItem
-							onClick={() => {
-								setIsEdit(!isEdit), handleClose();
-							}}
-							disableRipple
-						>
-							<EditOutlinedIcon />
-							Edit
-						</MenuItem>
-
-						<MenuItem onClick={() => setOpenConfirm(true)} disableRipple>
-							<DeleteOutlinedIcon />
-							Delete
-						</MenuItem>
-					</StyledMenu>
-				</Box>
-			)}
 
 			<Dialog
 				open={openConfirm}

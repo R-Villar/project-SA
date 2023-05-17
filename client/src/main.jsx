@@ -36,6 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 		<Provider store={store}>
 			<PersistGate loading={null} persistor={persistStore(store)}>
 				<SnackbarProvider
+        maxSnack={1}
 					anchorOrigin={{
 						vertical: "top",
 						horizontal: "center",

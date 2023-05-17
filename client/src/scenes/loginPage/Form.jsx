@@ -49,6 +49,7 @@ export const Form = () => {
 	const isLogin = pageType === "login";
 	const isRegister = pageType === "register";
 	const { enqueueSnackbar } = useSnackbar();
+	const [rejected, setRejected] = useState([]);
 
 	const register = async (values, onSubmitProps) => {
 		// this allows us to send form info with image
@@ -100,6 +101,11 @@ export const Form = () => {
 		if (isLogin) await login(values, onSubmitProps);
 		if (isRegister) await register(values, onSubmitProps);
 	};
+
+	if (rejected.length) {
+		enqueueSnackbar(rejected?.[0]?.errors?.[0]?.message, { variant: "error" });
+		setRejected([]);
+	}
 
 	return (
 		<Formik
@@ -178,9 +184,15 @@ export const Form = () => {
 									p='1rem'
 								>
 									<Dropzone
-										acceptedFiles='.jpg,.jpeg,.png'
+										accept={{
+											"image/jpeg": [".jpeg", ".png", ".jpg", ".gif"],
+										}}
+										maxSize={1024 * 1000}
 										multiple={false}
-										onDrop={(acceptedFiles) => setFieldValue("picture", acceptedFiles[0])}
+										onDrop={(acceptedFiles, rejectedFiles) => {
+											setFieldValue("picture", acceptedFiles[0]);
+											setRejected(rejectedFiles);
+										}}
 									>
 										{({ getRootProps, getInputProps }) => (
 											<Box
@@ -195,7 +207,7 @@ export const Form = () => {
 											>
 												<input {...getInputProps()} />
 												{!values.picture ? (
-													<p>Add Profile Picture Here</p>
+													<Typography>Add Profile Picture Here</Typography>
 												) : (
 													<FlexBetween>
 														<Typography>{values.picture.name}</Typography>

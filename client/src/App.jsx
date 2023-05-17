@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
+import { PrivacyPolicy } from "./scenes/PrivacyPolicy";
+import { TermsConditions } from "./scenes/TermsConditions";
 
 function App() {
 	const mode = useSelector((state) => state.mode);
@@ -25,6 +27,8 @@ function App() {
 							path='/profile/:userId'
 							element={isAuth ? <ProfilePage /> : <Navigate to='/' />}
 						/>
+						<Route path='/privacy-policy' element={<PrivacyPolicy />} />
+            <Route path='/terms-conditions' element={<TermsConditions />} />
 					</Routes>
 				</ThemeProvider>
 			</BrowserRouter>

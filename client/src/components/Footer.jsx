@@ -1,4 +1,5 @@
-import { Grid, List, ListItemText, Typography, useTheme, Box } from "@mui/material";
+import { Grid, List, ListItemText, Button, Typography, useTheme, Box } from "@mui/material";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -56,9 +57,9 @@ export const Footer = () => {
 				<Grid item md={6} lg={2}>
 					<List>
 						<ListItemText>
-							<Typography lineHeight={2} variant='caption2'>
+							<Button href="/privacy-policy" variant='caption2'>
 								Privacy &amp; Policy
-							</Typography>
+							</Button>
 						</ListItemText>
 						<ListItemText>
 							<Typography lineHeight={2} variant='caption2'>

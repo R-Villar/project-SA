@@ -1,13 +1,11 @@
-import { Grid, List, ListItemText, Typography, useTheme, useMediaQuery, Box, Icon } from "@mui/material";
+import { Grid, List, ListItemText, Typography, useTheme, Box } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
 
 export const Footer = () => {
 	const theme = useTheme();
-	const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
 	return (
 		<Box
@@ -15,7 +13,8 @@ export const Footer = () => {
 			backgroundColor={theme.palette.background.alt}
 			p='1rem 6%'
 			textAlign='center'
-			sx={{ bottom: 0, position: "absolute", width: "100%" }}
+      mt={20}
+			sx={{ bottom: 0, position: "relative", width: "100%" }}
 		>
 			<Grid container justifyContent='center'>
 				<Grid item md={4} lg={4}>

@@ -1,5 +1,4 @@
 import { Grid, List, ListItemText, Button, Typography, useTheme, Box } from "@mui/material";
-import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -14,7 +13,7 @@ export const Footer = () => {
 			backgroundColor={theme.palette.background.alt}
 			p='1rem 6%'
 			textAlign='center'
-      mt={20}
+			mt={20}
 			sx={{ bottom: 0, position: "relative", width: "100%" }}
 		>
 			<Grid container justifyContent='center'>
@@ -57,14 +56,12 @@ export const Footer = () => {
 				<Grid item md={6} lg={2}>
 					<List>
 						<ListItemText>
-							<Button href="/privacy-policy" variant='caption2'>
+							<Button href='/privacy-policy' variant='caption2'>
 								Privacy &amp; Policy
 							</Button>
 						</ListItemText>
 						<ListItemText>
-							<Typography lineHeight={2} variant='caption2'>
-								Terms &amp; Conditions
-							</Typography>
+							<Button href="/terms-conditions" variant='caption2'>Terms &amp; Conditions</Button>
 						</ListItemText>
 					</List>
 				</Grid>

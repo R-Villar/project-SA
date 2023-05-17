@@ -97,7 +97,7 @@ export const PrivacyPolicy = () => {
 
 				<Typography gutterBottom mt={2}>
 					Please review this Privacy Policy periodically to stay informed about how we protect your
-					privacy. If you have any questions or concerns about our practices, please contact us
+					privacy. If you have any questions or concerns about our practices, please contact us.
 				</Typography>
 			</Box>
 		</Box>

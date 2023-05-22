@@ -1,5 +1,5 @@
 import { EditOutlined, DeleteOutlined, ImageOutlined } from "@mui/icons-material";
-import { Box, Divider, Typography, useTheme, Button, IconButton, useMediaQuery } from "@mui/material";
+import { Box, Divider, Typography, useTheme, Button, IconButton } from "@mui/material";
 import FlexBetween from "@/components/FlexBetween";
 import Dropzone from "react-dropzone";
 import UserImage from "@/components/UserImage";
@@ -9,12 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "@/state";
 import { UserInputField } from "@/components/UserInputField";
 import { useSnackbar } from "notistack";
+import Tooltip from "@mui/material/Tooltip";
 
 export const MyPostWidget = ({ picturePath }) => {
 	const dispatch = useDispatch();
 	const [isImage, setIsImage] = useState(false);
 	const [image, setImage] = useState(null);
 	const [post, setPost] = useState("");
+	const [rejected, setRejected] = useState([]);
 	const { palette } = useTheme();
 	const { _id } = useSelector((state) => state.user);
 	const token = useSelector((state) => state.token);
@@ -47,6 +49,11 @@ export const MyPostWidget = ({ picturePath }) => {
 		}
 	};
 
+	if (rejected.length) {
+		enqueueSnackbar(rejected?.[0]?.errors?.[0]?.message, { variant: "error" });
+		setRejected([]);
+	}
+
 	return (
 		<WidgetWrapper>
 			<FlexBetween gap='1.5rem'>
@@ -56,9 +63,15 @@ export const MyPostWidget = ({ picturePath }) => {
 			{isImage && (
 				<Box border={`1px solid ${medium}`} borderRadius='5px' mt='1rem' p='1rem'>
 					<Dropzone
-						acceptedFiles='.jpg,.jpeg,.png'
+						accept={{
+							"image/jpeg": [".jpeg", ".png", ".jpg", ".gif"],
+						}}
+						maxSize={1024 * 1000}
 						multiple={false}
-						onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
+						onDrop={(acceptedFiles, rejectedFiles) => {
+							setImage(acceptedFiles[0]);
+							setRejected(rejectedFiles);
+						}}
 					>
 						{({ getRootProps, getInputProps }) => (
 							<FlexBetween>
@@ -80,9 +93,11 @@ export const MyPostWidget = ({ picturePath }) => {
 									)}
 								</Box>
 								{image && (
-									<IconButton onClick={() => setImage(null)} sx={{ width: "15%" }}>
-										<DeleteOutlined />
-									</IconButton>
+									<Tooltip title='Remove Image' placement='top'>
+										<IconButton onClick={() => setImage(null)} sx={{ width: "15%" }}>
+											<DeleteOutlined />
+										</IconButton>
+									</Tooltip>
 								)}
 							</FlexBetween>
 						)}

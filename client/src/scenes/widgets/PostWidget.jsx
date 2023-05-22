@@ -124,7 +124,7 @@ export const PostWidget = ({
 
 	return (
 		<WidgetWrapper m='2rem 0'>
-			<FlexBetween gap='0.5rem' pb='1.1rem'>
+			<Box sx={{ display: "flex", justifyContent: "space-between" }}>
 				{isLoading ? (
 					<Box sx={{ display: "flex", alignItems: "center" }}>
 						<Skeleton animation='wave' variant='circular' width={60} height={60} />
@@ -143,7 +143,7 @@ export const PostWidget = ({
 				)}
 
 				{isUserPost && (
-					<FlexBetween>
+					<Box>
 						<IconButton variant='contained' onClick={handleClick}>
 							<MoreHorizOutlinedIcon />
 						</IconButton>
@@ -162,9 +162,9 @@ export const PostWidget = ({
 								delete
 							</MenuItem>
 						</StyledMenu>
-					</FlexBetween>
+					</Box>
 				)}
-			</FlexBetween>
+			</Box>
 
 			<FlexBetween mt='0.25rem'>
 				{isEdit ? (

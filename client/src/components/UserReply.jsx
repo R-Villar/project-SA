@@ -43,7 +43,7 @@ export const UserReply = ({ postId }) => {
 	};
 
 	return (
-		<Box component='form' onSubmit={handleComment} justifyContent='center' display='flex' mt='0.5rem'>
+		<Box component='form'  onSubmit={handleComment} justifyContent='center' display='flex' mt='0.5rem'>
 			<UserInputField setPost={setComment} post={comment} />
 			<Button type='submit'>reply</Button>
 		</Box>

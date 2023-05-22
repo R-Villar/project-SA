@@ -6,6 +6,7 @@ export const UserInputField = (props) => {
 	return (
 		<>
 			<InputBase
+				name='post'
 				placeholder="What's on your mind..."
 				onChange={(e) => props.setPost(e.target.value)}
 				value={props.post}

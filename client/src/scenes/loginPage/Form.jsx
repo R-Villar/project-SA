@@ -123,7 +123,7 @@ export const Form = () => {
 				setFieldValue,
 				resetForm,
 			}) => (
-				<form onSubmit={handleSubmit}>
+				<form name='register-form' onSubmit={handleSubmit}>
 					<Box
 						display='grid'
 						gap='30px'

@@ -42,7 +42,7 @@ export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 	};
 
 	return (
-		<FlexBetween>
+		<Box sx={{ display: "flex", flexGrow: 1, justifyContent: "space-between" }}>
 			<FlexBetween gap='1rem'>
 				<UserImage image={userPicturePath} />
 				<Box
@@ -70,15 +70,20 @@ export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 					</Typography>
 				</Box>
 			</FlexBetween>
-			{!isSelf && (
-				<IconButton onClick={() => patchFriend()} sx={{ backgroundColor: primaryLight, p: "0.6rem" }}>
-					{isFriend ? (
-						<PersonRemoveOutlined sx={{ color: primaryDark }} />
-					) : (
-						<PersonAddOutlined sx={{ color: primaryDark }} />
-					)}
-				</IconButton>
-			)}
-		</FlexBetween>
+			<FlexBetween>
+				{!isSelf && (
+					<IconButton
+						onClick={() => patchFriend()}
+						sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+					>
+						{isFriend ? (
+							<PersonRemoveOutlined sx={{ color: primaryDark }} />
+						) : (
+							<PersonAddOutlined sx={{ color: primaryDark }} />
+						)}
+					</IconButton>
+				)}
+			</FlexBetween>
+		</Box>
 	);
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, TextField, useMediaQuery, Typography, useTheme } from "@mui/material";
+import { Box, Button, TextField, useMediaQuery, Typography, useTheme, FormGroup } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -9,6 +9,8 @@ import { setLogin } from "@/state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "@/components/FlexBetween";
 import { useSnackbar } from "notistack";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const registerSchema = yup.object().shape({
 	firstName: yup.string().required("required"),
@@ -50,8 +52,14 @@ export const Form = () => {
 	const isRegister = pageType === "register";
 	const { enqueueSnackbar } = useSnackbar();
 	const [rejected, setRejected] = useState([]);
+	const [checked, setChecked] = useState(false);
 
 	const register = async (values, onSubmitProps) => {
+		if (!checked) {
+			enqueueSnackbar("Please agree to the terms and conditions", { variant: "error" });
+			return;
+		}
+
 		// this allows us to send form info with image
 		const formData = new FormData();
 		for (let value in values) {
@@ -107,6 +115,10 @@ export const Form = () => {
 		setRejected([]);
 	}
 
+	const handleChecked = (event) => {
+		setChecked(event.target.checked);
+	};
+
 	return (
 		<Formik
 			onSubmit={handleFormSubmit}
@@ -138,6 +150,7 @@ export const Form = () => {
 						{isRegister && (
 							<>
 								<TextField
+									required
 									label='First Name'
 									onBlur={handleBlur}
 									onChange={handleChange}
@@ -148,6 +161,7 @@ export const Form = () => {
 									sx={{ gridColumn: "span 2" }}
 								/>
 								<TextField
+									required
 									label='Last Name'
 									onBlur={handleBlur}
 									onChange={handleChange}
@@ -158,6 +172,7 @@ export const Form = () => {
 									sx={{ gridColumn: "span 2" }}
 								/>
 								<TextField
+									required
 									label='Location'
 									onBlur={handleBlur}
 									onChange={handleChange}
@@ -168,6 +183,7 @@ export const Form = () => {
 									sx={{ gridColumn: "span 4" }}
 								/>
 								<TextField
+									required
 									label='Occupation'
 									onBlur={handleBlur}
 									onChange={handleChange}
@@ -243,6 +259,21 @@ export const Form = () => {
 							sx={{ gridColumn: "span 4" }}
 						/>
 					</Box>
+
+					{isRegister && (
+						<FormControlLabel
+							required
+							control={<Checkbox checked={checked} onChange={handleChecked} />}
+							label={
+								<>
+									<span>I agree to the </span>
+									<a href='/terms-conditions' target='_blank' rel='noreferrer'>
+										Terms &amp; Conditions
+									</a>
+								</>
+							}
+						/>
+					)}
 
 					{/* BUTTONS */}
 					<Box>

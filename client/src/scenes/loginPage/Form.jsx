@@ -59,7 +59,6 @@ export const Form = () => {
 			enqueueSnackbar("Please agree to the terms and conditions", { variant: "error" });
 			return;
 		}
-
 		// this allows us to send form info with image
 		const formData = new FormData();
 		for (let value in values) {

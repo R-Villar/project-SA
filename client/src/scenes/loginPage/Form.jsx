@@ -195,7 +195,11 @@ export const Form = () => {
 								/>
 								<Box
 									gridColumn='span 4'
-									border={`1px solid ${palette.neutral.medium}`}
+									border={
+										!errors.picture
+											? `1px solid ${palette.neutral.medium}`
+											: `1px solid ${palette.error.main}`
+									}
 									borderRadius='5px'
 									p='1rem'
 								>
@@ -233,6 +237,11 @@ export const Form = () => {
 											</Box>
 										)}
 									</Dropzone>
+									{errors.picture ? (
+										<Typography variant='caption' color='error.main'>
+											{errors.picture}
+										</Typography>
+									) : null}
 								</Box>
 							</>
 						)}

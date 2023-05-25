@@ -5,6 +5,8 @@ const initialState = {
 	user: null,
 	token: null,
 	posts: [],
+  baseUrl: "https://project-sa.vercel.app",
+  // baseUrl: "http://localhost:3001"
 };
 
 export const authSlice = createSlice({

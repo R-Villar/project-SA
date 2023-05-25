@@ -9,6 +9,7 @@ export const UserReply = ({ postId }) => {
 	const dispatch = useDispatch();
 	const [comment, setComment] = useState("");
 	const { _id, firstName, lastName, picturePath } = useSelector((state) => state.user);
+  const baseUrl = useSelector((state) => state.baseUrl);
 	const token = useSelector((state) => state.token);
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -23,7 +24,7 @@ export const UserReply = ({ postId }) => {
 		formData.append("userPicturePath", picturePath);
 
 		const commentData = Object.fromEntries(formData);
-		const response = await fetch(`http://localhost:3001/comments/${postId}`, {
+		const response = await fetch(`${baseUrl}/comments/${postId}`, {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${token}`,

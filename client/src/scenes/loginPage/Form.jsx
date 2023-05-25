@@ -134,7 +134,7 @@ export const Form = () => {
 				setFieldValue,
 				resetForm,
 			}) => (
-				<form name='register-form' onSubmit={handleSubmit}>
+				<form name='register-form' id='register-form' onSubmit={handleSubmit}>
 					<Box
 						display='grid'
 						gap='30px'
@@ -270,6 +270,8 @@ export const Form = () => {
 
 					{isRegister && (
 						<FormControlLabel
+							name='terms'
+							id='terms'
 							required
 							control={<Checkbox checked={checked} onChange={handleChecked} />}
 							label={

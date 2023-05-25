@@ -26,7 +26,7 @@ export const AdvertWidget = ({ isLoading }) => {
 					width='100%'
 					height='auto'
 					alt='advert'
-					src='http://localhost:3001/assets/info4.jpeg'
+					src='https://res.cloudinary.com/dc8pzm1nj/image/upload/v1685032650/info4_v3bv48.jpg'
 					style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
 				/>
 			)}

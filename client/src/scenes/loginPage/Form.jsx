@@ -47,6 +47,7 @@ export const Form = () => {
 	const { palette } = useTheme();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+  const baseUrl = useSelector((state) => state.baseUrl);
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 	const isLogin = pageType === "login";
 	const isRegister = pageType === "register";
@@ -65,7 +66,7 @@ export const Form = () => {
 			formData.append(value, values[value]);
 		}
 
-		const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+		const savedUserResponse = await fetch(`${baseUrl}/auth/register`, {
 			method: "POST",
 			body: formData,
 		});
@@ -82,7 +83,7 @@ export const Form = () => {
 	};
 
 	const login = async (values, onSubmitProps) => {
-		const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+		const loggedInResponse = await fetch(`${baseUrl}/auth/login`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(values),

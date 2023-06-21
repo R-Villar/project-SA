@@ -144,11 +144,12 @@ export const PostWidget = ({
 
 				{isUserPost && (
 					<Box>
-						<IconButton variant='contained' onClick={handleClick}>
+						<IconButton aria-label='more options' variant='contained' onClick={handleClick}>
 							<MoreHorizOutlinedIcon />
 						</IconButton>
 						<StyledMenu anchorEl={openMenu} open={open} onClose={handleClose}>
 							<MenuItem
+								aria-label='edit'
 								onClick={() => {
 									setIsEdit(!isEdit), handleClose();
 								}}
@@ -157,7 +158,7 @@ export const PostWidget = ({
 								<EditOutlinedIcon />
 								Edit
 							</MenuItem>
-							<MenuItem onClick={() => setOpenConfirm(true)}>
+							<MenuItem aria-label='delete' onClick={() => setOpenConfirm(true)}>
 								<DeleteOutlinedIcon />
 								delete
 							</MenuItem>
@@ -172,7 +173,7 @@ export const PostWidget = ({
 						<FlexBetween gap='1.5rem'>
 							<UserInputField post={postToEdit} setPost={setPostToEdit} />
 						</FlexBetween>
-						<Button onClick={patchDescription} endIcon={<DoneOutlinedIcon />}>
+						<Button aria-label='done' onClick={patchDescription} endIcon={<DoneOutlinedIcon />}>
 							Done
 						</Button>
 					</>
@@ -198,13 +199,14 @@ export const PostWidget = ({
 				</DialogContent>
 				<DialogActions>
 					<Button
+						aria-label='cancel'
 						onClick={() => {
 							setOpenConfirm(false), handleClose();
 						}}
 					>
 						Cancel
 					</Button>
-					<Button onClick={deletePost} autoFocus>
+					<Button aria-label='delete' onClick={deletePost} autoFocus>
 						delete
 					</Button>
 				</DialogActions>
@@ -229,7 +231,7 @@ export const PostWidget = ({
 			<FlexBetween mt='0.25rem'>
 				<FlexBetween mt='1rem'>
 					<FlexBetween gap='0.3rem'>
-						<IconButton onClick={patchLike}>
+						<IconButton aria-label='like / unlike' onClick={patchLike}>
 							{isLiked ? (
 								<FavoriteOutlined sx={{ color: pink[500] }} />
 							) : (
@@ -240,7 +242,7 @@ export const PostWidget = ({
 					</FlexBetween>
 
 					<FlexBetween gap='0.3rem'>
-						<IconButton onClick={() => setIsComments(!isComments)}>
+						<IconButton aria-label='comment' onClick={() => setIsComments(!isComments)}>
 							<ChatBubbleOutlineOutlined />
 						</IconButton>
 						<Typography>{comments.length}</Typography>

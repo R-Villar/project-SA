@@ -23,7 +23,6 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 	const loggedInUserId = useSelector((state) => state.user._id);
 	const [openMenu, setOpenMenu] = useState(null);
 	const [editContent, setEditContent] = useState(content);
-  const baseUrl = useSelector((state) => state.baseUrl);
 	const [isEdit, setIsEdit] = useState(false);
 	const [openConfirm, setOpenConfirm] = useState(false);
 	const { enqueueSnackbar } = useSnackbar();
@@ -42,7 +41,7 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 	};
 
 	const deleteComment = async () => {
-		const response = await fetch(`${baseUrl}/comments/${postId}/${_id}`, {
+		const response = await fetch(`http://localhost:3001/comments/${postId}/${_id}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -62,7 +61,7 @@ export const DisplayComments = ({ _id, content, userPicturePath, firstName, last
 
 	const patchContent = async () => {
 		if (editContent !== content) {
-			const response = await fetch(`${baseUrl}/comments/${_id}`, {
+			const response = await fetch(`http://localhost:3001/comments/${_id}`, {
 				method: "PATCH",
 				headers: {
 					Authorization: `Bearer ${token}`,

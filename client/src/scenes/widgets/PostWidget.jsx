@@ -48,7 +48,6 @@ export const PostWidget = ({
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.token);
 	const loggedInUserId = useSelector((state) => state.user._id);
-	const baseUrl = useSelector((state) => state.baseUrl);
 	const isLiked = Boolean(likes[loggedInUserId]);
 	const likeCount = Object.keys(likes).length;
 
@@ -68,7 +67,7 @@ export const PostWidget = ({
 	};
 
 	const patchLike = async () => {
-		const response = await fetch(`${baseUrl}/posts/${postId}/like`, {
+		const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -87,7 +86,7 @@ export const PostWidget = ({
 
 	const patchDescription = async () => {
 		if (postToEdit !== description) {
-			const response = await fetch(`${baseUrl}/posts/${postId}/description`, {
+			const response = await fetch(`${import.meta.env.VITE_BASEURL}/posts/${postId}/description`, {
 				method: "PATCH",
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -106,7 +105,7 @@ export const PostWidget = ({
 	};
 
 	const deletePost = async () => {
-		const response = await fetch(`${baseUrl}/posts/${postId}`, {
+		const response = await fetch(`${import.meta.env.VITE_BASEURL}/posts/${postId}`, {
 			method: "DELETE",
 			headers: {
 				Authorization: `Bearer ${token}`,

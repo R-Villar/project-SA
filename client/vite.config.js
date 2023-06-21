@@ -1,4 +1,4 @@
-import {defineConfig} from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
@@ -9,8 +9,8 @@ export default defineConfig({
 		alias: {
 			"@": path.resolve(__dirname, "src"),
 		},
-    exclude: [
-      '@ionic/core/loader' //fix weird Vite error "outdated optimize dep"
-  ],
+		exclude: [
+			"@ionic/core/loader", //fix weird Vite error "outdated optimize dep"
+		],
 	},
 });

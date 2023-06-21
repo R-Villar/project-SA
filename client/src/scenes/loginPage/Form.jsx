@@ -4,7 +4,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLogin } from "@/state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "@/components/FlexBetween";
@@ -47,7 +47,6 @@ export const Form = () => {
 	const { palette } = useTheme();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-  const baseUrl = useSelector((state) => state.baseUrl);
 	const isNonMobile = useMediaQuery("(min-width:600px)");
 	const isLogin = pageType === "login";
 	const isRegister = pageType === "register";
@@ -66,7 +65,7 @@ export const Form = () => {
 			formData.append(value, values[value]);
 		}
 
-		const savedUserResponse = await fetch(`${baseUrl}/auth/register`, {
+		const savedUserResponse = await fetch(`http://localhost:3001/auth/register`, {
 			method: "POST",
 			body: formData,
 		});
@@ -83,7 +82,7 @@ export const Form = () => {
 	};
 
 	const login = async (values, onSubmitProps) => {
-		const loggedInResponse = await fetch(`${baseUrl}/auth/login`, {
+		const loggedInResponse = await fetch(`http://localhost:3001/auth/login`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(values),

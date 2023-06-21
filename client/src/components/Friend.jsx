@@ -13,7 +13,6 @@ export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 	const { _id } = useSelector((state) => state.user);
 	const token = useSelector((state) => state.token);
 	const friends = useSelector((state) => state.user.friends);
-  const baseUrl = useSelector((state) => state.baseUrl);
 	const { enqueueSnackbar } = useSnackbar();
 
 	const { palette } = useTheme();
@@ -26,7 +25,7 @@ export const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 	const isSelf = friendId === _id;
 
 	const patchFriend = async () => {
-		const response = await fetch(`${baseUrl}/users/${_id}/${friendId}`, {
+		const response = await fetch(`${import.meta.env.VITE_BASEURL}/users/${_id}/${friendId}`, {
 			method: "PATCH",
 			headers: {
 				Authorization: `Bearer ${token}`,

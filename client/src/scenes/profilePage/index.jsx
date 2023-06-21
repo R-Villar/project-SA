@@ -13,13 +13,12 @@ export const ProfilePage = () => {
 	const [user, setUser] = useState(null);
 	const { userId } = useParams();
 	const token = useSelector((state) => state.token);
-  const baseUrl = useSelector((state) => state.baseUrl);
 	const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 	const [isLoading, setIsLoading] = useState(true);
   const { enqueueSnackbar } = useSnackbar();
 
 	const getUser = async () => {
-		const response = await fetch(`${baseUrl}/users/${userId}`, {
+		const response = await fetch(`http://localhost:3001/users/${userId}`, {
 			method: "GET",
 			headers: { Authorization: `Bearer ${token}` },
 		});

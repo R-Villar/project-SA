@@ -20,7 +20,6 @@ export const MyPostWidget = ({ picturePath }) => {
 	const { palette } = useTheme();
 	const { _id } = useSelector((state) => state.user);
 	const token = useSelector((state) => state.token);
-  const baseUrl = useSelector((state) => state.baseUrl);
 	const medium = palette.neutral.medium;
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -32,7 +31,7 @@ export const MyPostWidget = ({ picturePath }) => {
 			formData.append("picture", image);
 		}
 
-		const response = await fetch(`${baseUrl}/posts`, {
+		const response = await fetch(`http://localhost:3001/posts`, {
 			method: "POST",
 			headers: { Authorization: `Bearer ${token}` },
 			body: formData,

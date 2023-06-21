@@ -8,11 +8,10 @@ export const PostsWidget = ({ setIsLoading, isLoading, userId, isProfile = false
 	const dispatch = useDispatch();
 	const posts = useSelector((state) => state.posts);
 	const token = useSelector((state) => state.token);
-  const baseUrl = useSelector((state) => state.baseUrl);
 	const { enqueueSnackbar } = useSnackbar();
 
 	const getPosts = async () => {
-		const response = await fetch(`${baseUrl}/posts`, {
+		const response = await fetch(`http://localhost:3001/posts`, {
 			method: "GET",
 			headers: { Authorization: `Bearer ${token}` },
 		});
@@ -27,7 +26,7 @@ export const PostsWidget = ({ setIsLoading, isLoading, userId, isProfile = false
 	};
 
 	const getUserPosts = async () => {
-		const response = await fetch(`${baseUrl}/posts/userPost/${userId}`, {
+		const response = await fetch(`${import.meta.env.VITE_BASEURL}/posts/userPost/${userId}`, {
 			method: "GET",
 			headers: { Authorization: `Bearer ${token}` },
 		});

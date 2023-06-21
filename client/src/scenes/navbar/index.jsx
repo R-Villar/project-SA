@@ -48,7 +48,7 @@ export const Navbar = () => {
 			{/* DESKTOP NAV */}
 			{isNonMobileScreens ? (
 				<FlexBetween gap='2rem'>
-					<IconButton onClick={() => dispatch(setMode())}>
+					<IconButton aria-label="light/dark mode" onClick={() => dispatch(setMode())}>
 						{theme.palette.mode === "dark" ? (
 							<DarkMode sx={{ fontSize: "25px" }} />
 						) : (
